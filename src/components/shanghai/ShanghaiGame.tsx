@@ -19,12 +19,14 @@ import {
   VolumeX,
   Award,
 } from 'lucide-react';
+import { useTranslation } from '../../i18n/LanguageContext';
 
 interface ShanghaiGameProps {
   onOpenStats?: () => void;
 }
 
 export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
+  const { t } = useTranslation();
   const [state, setState] = useState<ShanghaiState>(() => ({
     tiles: generateSolvableShanghaiBoard(),
     selectedTileId: null,
@@ -275,15 +277,15 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
         {/* Info Stats */}
         <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold">
           <div className="flex items-center gap-1.5 bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-700">
-            <span className="text-slate-400">タイム:</span>
+            <span className="text-slate-400">{t('time')}:</span>
             <span className="font-mono-digits text-amber-400 text-sm sm:text-base">{formatTime(state.timeSeconds)}</span>
           </div>
           <div className="flex items-center gap-1.5 bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-700">
-            <span className="text-slate-400">残り牌:</span>
+            <span className="text-slate-400">{t('shanghaiRemaining')}:</span>
             <span className="font-mono-digits text-emerald-400 text-sm sm:text-base">{activeTiles.length}</span>
           </div>
           <div className="flex items-center gap-1.5 bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-700">
-            <span className="text-slate-400">可能ペア:</span>
+            <span className="text-slate-400">{t('shanghaiAvailable')}:</span>
             <span className={`font-mono-digits text-sm sm:text-base ${availableMatches.length > 0 ? 'text-sky-400' : 'text-red-400 font-bold'}`}>
               {availableMatches.length}
             </span>
@@ -297,10 +299,10 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
             onClick={handleHint}
             disabled={availableMatches.length === 0 || state.isWon}
             className="flex items-center gap-1 px-2.5 py-1.5 bg-sky-600 hover:bg-sky-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-semibold rounded-lg shadow transition-colors"
-            title="ヒントを表示"
+            title={t('shanghaiHint')}
           >
             <Lightbulb className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span>ヒント</span>
+            <span>{t('shanghaiHint')}</span>
           </button>
 
           {/* Shuffle Button */}
@@ -308,10 +310,10 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
             onClick={handleShuffle}
             disabled={state.shufflesRemaining <= 0 || state.isWon || activeTiles.length === 0}
             className="flex items-center gap-1 px-2.5 py-1.5 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-semibold rounded-lg shadow transition-colors"
-            title="シャッフル"
+            title={t('shanghaiShuffle')}
           >
             <Shuffle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span>再配置 ({state.shufflesRemaining})</span>
+            <span>{t('shanghaiShuffle')} ({state.shufflesRemaining})</span>
           </button>
 
           {/* Undo */}
@@ -319,20 +321,20 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
             onClick={handleUndo}
             disabled={state.history.length === 0 || state.isWon}
             className="flex items-center gap-1 px-2.5 py-1.5 bg-slate-700 hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed text-slate-200 text-xs sm:text-sm font-medium rounded-lg transition-colors"
-            title="一手戻す"
+            title={t('undo')}
           >
             <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">戻す</span>
+            <span className="hidden sm:inline">{t('undo')}</span>
           </button>
 
           {/* New Game */}
           <button
             onClick={startNewGame}
             className="flex items-center gap-1 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs sm:text-sm font-bold rounded-lg shadow-md transition-all"
-            title="新しいゲームを開始"
+            title={t('newGame')}
           >
             <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white" />
-            <span>新規</span>
+            <span>{t('newGame')}</span>
           </button>
 
           {/* Stats Button */}
@@ -340,7 +342,7 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
             <button
               onClick={onOpenStats}
               className="p-1.5 sm:p-2 bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white rounded-lg transition-colors"
-              title="統計"
+              title={t('stats')}
             >
               <Award className="w-4 h-4" />
             </button>
@@ -350,7 +352,7 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
           <button
             onClick={toggleSound}
             className="p-1.5 sm:p-2 bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white rounded-lg transition-colors"
-            title={soundMuted ? 'ミュート解除' : 'ミュート'}
+            title={soundMuted ? 'Mute' : 'Unmute'}
           >
             {soundMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
           </button>
@@ -361,14 +363,14 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
       {state.isStuck && !state.isWon && (
         <div className="w-full max-w-4xl bg-amber-900/80 border border-amber-500 text-amber-200 px-4 py-2 rounded-xl mb-3 flex items-center justify-between shadow-lg animate-pulse">
           <span className="text-xs sm:text-sm font-semibold">
-            ⚠️ 手詰まりになりました！「再配置」ボタンで牌をシャッフルできます。
+            {t('shanghaiStuckWarning')}
           </span>
           {state.shufflesRemaining > 0 && (
             <button
               onClick={handleShuffle}
               className="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-lg shadow"
             >
-              今すぐ再配置
+              {t('shanghaiShuffleNow')}
             </button>
           )}
         </div>
@@ -377,7 +379,7 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
       {/* 3D Mahjong Board Container */}
       <div
         ref={boardWrapperRef}
-        className="w-full max-w-5xl bg-gradient-to-b from-stone-900 via-stone-850 to-stone-950 rounded-2xl p-2 sm:p-4 md:p-6 shadow-2xl border-4 border-amber-950/80 ring-1 ring-amber-700/40 flex justify-center items-center overflow-x-auto min-h-[460px]"
+        className="w-full max-w-5xl bg-gradient-to-b from-[#142820] via-[#0d1e17] to-[#07130e] rounded-2xl p-3 sm:p-5 md:p-8 shadow-2xl border-4 sm:border-8 border-[#3b1f13] ring-2 ring-[#78350f]/60 flex justify-center items-center overflow-x-auto min-h-[480px]"
       >
         <div
           className="relative mahjong-board-container my-4"

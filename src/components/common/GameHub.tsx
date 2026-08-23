@@ -2,6 +2,7 @@ import React from 'react';
 import { AllStats, GameType } from '../../types/common';
 import { Trophy, ArrowRight, Sparkles, CheckCircle2, ShieldAlert } from 'lucide-react';
 import { sounds } from '../../audio/soundEffects';
+import { useTranslation } from '../../i18n/LanguageContext';
 
 interface GameHubProps {
   stats: AllStats;
@@ -9,6 +10,8 @@ interface GameHubProps {
 }
 
 export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
+  const { t } = useTranslation();
+
   const games: {
     id: GameType;
     title: string;
@@ -24,15 +27,15 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
   }[] = [
     {
       id: 'solitaire',
-      title: 'ソリティア (クロンダイク)',
+      title: t('hubSolitaireTitle'),
       subTitle: 'Klondike Solitaire',
-      description: '古典的なトランプの一人遊び。赤と黒を交互に重ね、AからKまで4つの組札を完成させましょう。',
+      description: t('hubSolitaireDesc'),
       icon: '♠️',
-      badge: '定番カードゲーム',
+      badge: t('hubSolitaireBadge'),
       features: [
-        'スマホ対応ワンタップ移動 ＆ PCドラッグ操作',
-        '1枚めくり / 3枚めくり切り替え',
-        '爽快な自動完成 ＆ カード跳ね返り演出',
+        t('hubSolitaireF1'),
+        t('hubSolitaireF2'),
+        t('hubSolitaireF3'),
       ],
       gradient: 'from-emerald-900/60 via-emerald-950/40 to-slate-900',
       border: 'border-emerald-600/40 hover:border-emerald-500',
@@ -41,15 +44,15 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
     },
     {
       id: 'minesweeper',
-      title: 'マインスイーパー',
+      title: t('hubMinesweeperTitle'),
       subTitle: 'Minesweeper',
-      description: '数字のヒントを頼りに、地雷を避けてすべての安全なマスを開放する論理パズル。',
+      description: t('hubMinesweeperDesc'),
       icon: '💣',
-      badge: '論理思考パズル',
+      badge: t('hubMinesweeperBadge'),
       features: [
-        '初手安全保証（最初のクリックは必ず安全）',
-        '初級(9x9)・中級(16x16)・上級(30x16)の3難易度',
-        'スマホ用ワンタップ旗モード ＆ 盤面ズーム機能',
+        t('hubMinesweeperF1'),
+        t('hubMinesweeperF2'),
+        t('hubMinesweeperF3'),
       ],
       gradient: 'from-blue-900/60 via-blue-950/40 to-slate-900',
       border: 'border-blue-600/40 hover:border-blue-500',
@@ -64,15 +67,15 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
     },
     {
       id: 'shanghai',
-      title: '上海 (麻雀ソリティア)',
+      title: t('hubShanghaiTitle'),
       subTitle: 'Mahjong Solitaire',
-      description: '積み上げられた144枚の麻雀牌から、左右が開いている同じ絵柄の牌を2枚ずつ消していく伝統パズル。',
+      description: t('hubShanghaiDesc'),
       icon: '🀄',
-      badge: '牌消しパズル',
+      badge: t('hubShanghaiBadge'),
       features: [
-        '100%確実に解ける盤面生成アルゴリズム',
-        '3D立体レイヤー表示 ＆ 選択可能牌の視覚アシスト',
-        '困ったときのヒント機能 ＆ 牌の再配置シャッフル',
+        t('hubShanghaiF1'),
+        t('hubShanghaiF2'),
+        t('hubShanghaiF3'),
       ],
       gradient: 'from-amber-900/60 via-amber-950/40 to-slate-900',
       border: 'border-amber-600/40 hover:border-amber-500',
@@ -92,14 +95,13 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
       <div className="text-center flex flex-col items-center gap-2 sm:gap-3">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>PC & スマートフォン両対応・Web版</span>
+          <span>{t('hubBadge')}</span>
         </div>
         <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
-          クラシック・ソロゲームズ
+          {t('hubHeroTitle')}
         </h1>
         <p className="text-xs sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-          誰でも知っている永遠の名作一人遊びゲームを、快適な操作感と美しい演出で。
-          通勤中や休憩時間の手軽な脳トレにどうぞ。
+          {t('hubHeroDesc')}
         </p>
       </div>
 
@@ -152,12 +154,12 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
                 <div className="flex items-center gap-1.5 text-xs text-slate-300">
                   <Trophy className="w-3.5 h-3.5 text-amber-400" />
                   <span>
-                    勝率: <strong className="text-white">{winRate}%</strong> ({game.won}/{game.played})
+                    {t('winRate')}: <strong className="text-white">{winRate}%</strong> ({game.won}/{game.played})
                   </span>
                 </div>
 
                 <div className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-600 group-hover:bg-indigo-500 text-white text-xs font-bold shadow-md transition-colors">
-                  <span>プレイ</span>
+                  <span>{t('play')}</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </div>
@@ -170,12 +172,12 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
       <div className="w-full text-center text-xs text-slate-400 pt-4 flex flex-wrap items-center justify-center gap-4 border-t border-slate-800">
         <span className="flex items-center gap-1">
           <ShieldAlert className="w-3.5 h-3.5 text-indigo-400" />
-          全ゲーム完全無料・登録不要
+          {t('freeTag')}
         </span>
         <span>•</span>
-        <span>Web Audio API 高音質シンセ音源</span>
+        <span>{t('soundTag')}</span>
         <span>•</span>
-        <span>ローカル自動セーブ対応</span>
+        <span>{t('saveTag')}</span>
       </div>
     </div>
   );

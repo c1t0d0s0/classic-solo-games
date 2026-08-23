@@ -2,6 +2,7 @@ import React from 'react';
 import { GameType } from '../../types/common';
 import { Home, Trophy, Settings, Maximize2, Minimize2 } from 'lucide-react';
 import { sounds } from '../../audio/soundEffects';
+import { useTranslation } from '../../i18n/LanguageContext';
 
 interface HeaderProps {
   activeGame: GameType;
@@ -17,6 +18,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenSettings,
 }) => {
   const [isFullscreen, setIsFullscreen] = React.useState<boolean>(false);
+  const { t } = useTranslation();
 
   const toggleFullscreen = () => {
     sounds.playClick();
@@ -30,10 +32,10 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   const navItems: { id: GameType; label: string; icon: string }[] = [
-    { id: 'hub', label: 'ホーム', icon: '🏠' },
-    { id: 'solitaire', label: 'ソリティア', icon: '♠' },
-    { id: 'minesweeper', label: 'マインスイーパー', icon: '💣' },
-    { id: 'shanghai', label: '上海', icon: '🀄' },
+    { id: 'hub', label: t('navHome'), icon: '🏠' },
+    { id: 'solitaire', label: t('navSolitaire'), icon: '♠' },
+    { id: 'minesweeper', label: t('navMinesweeper'), icon: '💣' },
+    { id: 'shanghai', label: t('navShanghai'), icon: '🀄' },
   ];
 
   return (
@@ -50,7 +52,7 @@ export const Header: React.FC<HeaderProps> = ({
           CS
         </div>
         <span className="font-extrabold text-sm sm:text-base md:text-lg bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent hidden xs:inline">
-          クラシック・ソロ
+          {t('appName')}
         </span>
       </div>
 
@@ -87,7 +89,7 @@ export const Header: React.FC<HeaderProps> = ({
             onOpenStats();
           }}
           className="p-1.5 sm:p-2 text-slate-300 hover:text-amber-400 bg-slate-800 hover:bg-slate-700/80 rounded-lg border border-slate-700 transition-colors"
-          title="戦績・統計"
+          title={t('stats')}
         >
           <Trophy className="w-4 h-4" />
         </button>
@@ -98,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
             onOpenSettings();
           }}
           className="p-1.5 sm:p-2 text-slate-300 hover:text-indigo-400 bg-slate-800 hover:bg-slate-700/80 rounded-lg border border-slate-700 transition-colors"
-          title="設定"
+          title={t('settings')}
         >
           <Settings className="w-4 h-4" />
         </button>
@@ -106,7 +108,7 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           onClick={toggleFullscreen}
           className="p-1.5 sm:p-2 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 rounded-lg border border-slate-700 transition-colors hidden sm:flex"
-          title={isFullscreen ? '全画面解除' : '全画面表示'}
+          title={isFullscreen ? t('exitFullscreen') : t('fullscreen')}
         >
           {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
         </button>

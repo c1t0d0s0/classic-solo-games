@@ -16,6 +16,7 @@ import { sounds } from '../../audio/soundEffects';
 import { triggerVictoryConfetti } from '../../utils/confetti';
 import { saveGameResult } from '../../utils/storage';
 import { Play, RotateCcw, Zap, Volume2, VolumeX, Award } from 'lucide-react';
+import { useTranslation } from '../../i18n/LanguageContext';
 
 interface SolitaireGameProps {
   drawMode?: 1 | 3;
@@ -26,6 +27,7 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
   drawMode = 1,
   onOpenStats,
 }) => {
+  const { t } = useTranslation();
   const [state, setState] = useState<SolitaireState>(() => initializeSolitaireGame(drawMode));
   const [history, setHistory] = useState<SolitaireSnapshot[]>([]);
   const [selectedCardInfo, setSelectedCardInfo] = useState<{
@@ -80,7 +82,11 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
         newState.timeSeconds
       );
     } else {
-      newState.autoCompletable = checkIsAutoCompletable(newState);
+      const autoCompletable = checkIsAutoCompletable(newState);
+      newState.autoCompletable = autoCompletable;
+      if (autoCompletable && !newState.isWon) {
+        setIsAutoPlaying(true);
+      }
     }
     return newState;
   }, []);
@@ -345,10 +351,11 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
           return checkAndHandleWin({ ...prev, isWon: true });
         }
 
-        // Find lowest card that can move to foundation
         const nextTableau = prev.tableau.map((t) => [...t]);
         const nextFoundations = prev.foundations.map((f) => [...f]);
+        const nextWaste = [...prev.waste];
 
+        // 1. Try moving top of tableau columns to foundation
         for (let colIdx = 0; colIdx < 7; colIdx++) {
           const col = nextTableau[colIdx];
           if (col.length === 0) continue;
@@ -364,6 +371,28 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
                 ...prev,
                 tableau: nextTableau,
                 foundations: nextFoundations,
+                waste: nextWaste,
+                moves: prev.moves + 1,
+                score: prev.score + 10,
+              };
+            }
+          }
+        }
+
+        // 2. Try moving top of waste to foundation
+        if (nextWaste.length > 0) {
+          const topWaste = nextWaste[nextWaste.length - 1];
+          for (let fIdx = 0; fIdx < 4; fIdx++) {
+            if (canMoveToFoundation(topWaste, nextFoundations[fIdx])) {
+              nextWaste.pop();
+              nextFoundations[fIdx].push(topWaste);
+              sounds.playCardPlace();
+
+              return {
+                ...prev,
+                tableau: nextTableau,
+                foundations: nextFoundations,
+                waste: nextWaste,
                 moves: prev.moves + 1,
                 score: prev.score + 10,
               };
@@ -375,7 +404,7 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
         setIsAutoPlaying(false);
         return prev;
       });
-    }, 120);
+    }, 85);
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, checkAndHandleWin]);
@@ -400,15 +429,15 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
         {/* Info Stats */}
         <div className="flex items-center gap-4 text-xs sm:text-sm font-semibold">
           <div className="flex items-center gap-1.5 bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-700">
-            <span className="text-slate-400">タイム:</span>
+            <span className="text-slate-400">{t('time')}:</span>
             <span className="font-mono-digits text-amber-400 text-sm sm:text-base">{formatTime(state.timeSeconds)}</span>
           </div>
           <div className="flex items-center gap-1.5 bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-700">
-            <span className="text-slate-400">手数:</span>
+            <span className="text-slate-400">{t('moves')}:</span>
             <span className="font-mono-digits text-emerald-400 text-sm sm:text-base">{state.moves}</span>
           </div>
           <div className="flex items-center gap-1.5 bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-700">
-            <span className="text-slate-400">スコア:</span>
+            <span className="text-slate-400">{t('score')}:</span>
             <span className="font-mono-digits text-sky-400 text-sm sm:text-base">{state.score}</span>
           </div>
         </div>
@@ -423,7 +452,7 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
                 state.drawMode === 1 ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              1枚
+              {t('draw1')}
             </button>
             <button
               onClick={() => handleChangeDrawMode(3)}
@@ -431,7 +460,7 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
                 state.drawMode === 3 ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              3枚
+              {t('draw3')}
             </button>
           </div>
 
@@ -443,7 +472,7 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
               className="flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white text-xs sm:text-sm font-bold rounded-lg shadow-lg shadow-orange-500/30 animate-bounce transition-transform active:scale-95"
             >
               <Zap className="w-4 h-4" />
-              自動完成
+              {isAutoPlaying ? t('autoCollecting') : t('autoComplete')}
             </button>
           )}
 
@@ -452,20 +481,20 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
             onClick={handleUndo}
             disabled={history.length === 0 || isAutoPlaying}
             className="flex items-center gap-1 px-2.5 py-1.5 bg-slate-700 hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed text-slate-200 text-xs sm:text-sm font-medium rounded-lg transition-colors"
-            title="一手戻す"
+            title={t('undo')}
           >
             <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">戻す</span>
+            <span className="hidden sm:inline">{t('undo')}</span>
           </button>
 
           {/* New Game */}
           <button
             onClick={() => startNewGame()}
             className="flex items-center gap-1 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs sm:text-sm font-bold rounded-lg shadow-md transition-all"
-            title="新しいゲームを開始"
+            title={t('newGame')}
           >
             <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white" />
-            <span>新規</span>
+            <span>{t('newGame')}</span>
           </button>
 
           {/* Stats Button */}

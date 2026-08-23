@@ -22,6 +22,7 @@ export interface AllStats {
 export interface UserSettings {
   soundEnabled: boolean;
   theme: AppTheme;
+  language: 'auto' | 'ja' | 'en';
   solitaireDrawMode: 1 | 3;
   solitaireAutoMove: boolean;
   minesweeperQuickFlag: boolean;

@@ -1,7 +1,8 @@
 import React from 'react';
 import { AppTheme, UserSettings } from '../../types/common';
-import { X, Settings, Volume2, VolumeX, Palette, Layers } from 'lucide-react';
+import { X, Settings, Volume2, VolumeX, Palette, Layers, Globe } from 'lucide-react';
 import { sounds } from '../../audio/soundEffects';
+import { useTranslation } from '../../i18n/LanguageContext';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   settings,
   onUpdateSettings,
 }) => {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   const handleSoundToggle = () => {
@@ -29,21 +31,26 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     onUpdateSettings({ ...settings, theme });
   };
 
+  const handleLanguageChange = (language: 'auto' | 'ja' | 'en') => {
+    sounds.playClick();
+    onUpdateSettings({ ...settings, language });
+  };
+
   const themes: { id: AppTheme; label: string; desc: string; preview: string }[] = [
-    { id: 'classic', label: 'クラシック・フェルト', desc: 'カジノテーブル風の伝統的グリーン', preview: 'bg-emerald-800' },
-    { id: 'dark', label: 'ダーク・スレート', desc: '目に優しいモダンなダークモード', preview: 'bg-slate-900' },
-    { id: 'retro-win', label: 'レトロ・90s', desc: '懐かしのクラシックPC風', preview: 'bg-slate-400' },
-    { id: 'felt', label: 'ディープ・フォレスト', desc: '落ち着きのある深緑', preview: 'bg-teal-900' },
+    { id: 'classic', label: t('themeClassic'), desc: t('themeClassicDesc'), preview: 'bg-emerald-800' },
+    { id: 'dark', label: t('themeDark'), desc: t('themeDarkDesc'), preview: 'bg-slate-900' },
+    { id: 'retro-win', label: t('themeRetro'), desc: t('themeRetroDesc'), preview: 'bg-slate-400' },
+    { id: 'felt', label: t('themeFelt'), desc: t('themeFeltDesc'), preview: 'bg-teal-900' },
   ];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl flex flex-col gap-5">
+      <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-800 pb-3">
           <div className="flex items-center gap-2">
             <Settings className="w-5 h-5 text-indigo-400" />
-            <h2 className="text-lg font-bold text-white">設定</h2>
+            <h2 className="text-lg font-bold text-white">{t('settings')}</h2>
           </div>
           <button
             onClick={onClose}
@@ -51,6 +58,46 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           >
             <X className="w-5 h-5" />
           </button>
+        </div>
+
+        {/* Language Option */}
+        <div className="flex flex-col gap-2 p-3 bg-slate-800/60 rounded-xl border border-slate-700">
+          <div className="flex items-center gap-2">
+            <Globe className="w-4 h-4 text-sky-400" />
+            <span className="font-bold text-sm text-slate-200">{t('language')}</span>
+          </div>
+          <div className="grid grid-cols-3 gap-1.5 bg-slate-900 p-1 rounded-lg border border-slate-700 text-xs font-semibold">
+            <button
+              onClick={() => handleLanguageChange('auto')}
+              className={`py-1.5 px-2 rounded-md transition-all ${
+                (settings.language || 'auto') === 'auto'
+                  ? 'bg-indigo-600 text-white shadow'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              {t('langAuto')}
+            </button>
+            <button
+              onClick={() => handleLanguageChange('ja')}
+              className={`py-1.5 px-2 rounded-md transition-all ${
+                settings.language === 'ja'
+                  ? 'bg-indigo-600 text-white shadow'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              {t('langJa')}
+            </button>
+            <button
+              onClick={() => handleLanguageChange('en')}
+              className={`py-1.5 px-2 rounded-md transition-all ${
+                settings.language === 'en'
+                  ? 'bg-indigo-600 text-white shadow'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              {t('langEn')}
+            </button>
+          </div>
         </div>
 
         {/* Sound Option */}
@@ -62,8 +109,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <VolumeX className="w-5 h-5 text-red-400" />
             )}
             <div>
-              <div className="font-bold text-sm text-slate-200">効果音</div>
-              <div className="text-xs text-slate-400">カード、牌、爆発などの効果音</div>
+              <div className="font-bold text-sm text-slate-200">{t('sound')}</div>
+              <div className="text-xs text-slate-400">{t('soundDesc')}</div>
             </div>
           </div>
           <button
@@ -80,25 +127,25 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2 text-sm font-bold text-slate-300">
             <Palette className="w-4 h-4 text-amber-400" />
-            <span>背景テーマ</span>
+            <span>{t('theme')}</span>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            {themes.map((t) => (
+            {themes.map((tItem) => (
               <button
-                key={t.id}
-                onClick={() => handleThemeChange(t.id)}
+                key={tItem.id}
+                onClick={() => handleThemeChange(tItem.id)}
                 className={`p-2.5 rounded-xl border text-left flex flex-col gap-1 transition-all ${
-                  settings.theme === t.id
+                  settings.theme === tItem.id
                     ? 'border-indigo-500 bg-indigo-950/40 ring-2 ring-indigo-500/50'
                     : 'border-slate-700 bg-slate-800/40 hover:bg-slate-800 hover:border-slate-600'
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <div className={`w-4 h-4 rounded-full ${t.preview} border border-white/20`} />
-                  <span className="font-bold text-xs text-slate-200">{t.label}</span>
+                  <div className={`w-4 h-4 rounded-full ${tItem.preview} border border-white/20`} />
+                  <span className="font-bold text-xs text-slate-200">{tItem.label}</span>
                 </div>
-                <span className="text-[10px] text-slate-400 leading-tight">{t.desc}</span>
+                <span className="text-[10px] text-slate-400 leading-tight">{tItem.desc}</span>
               </button>
             ))}
           </div>
@@ -109,8 +156,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           <div className="flex items-center gap-3">
             <Layers className="w-5 h-5 text-indigo-400" />
             <div>
-              <div className="font-bold text-sm text-slate-200">ソリティアめくり枚数</div>
-              <div className="text-xs text-slate-400">標準のめくり設定</div>
+              <div className="font-bold text-sm text-slate-200">{t('drawModeLabel')}</div>
+              <div className="text-xs text-slate-400">{t('drawModeDesc')}</div>
             </div>
           </div>
           <div className="flex rounded-lg bg-slate-900 p-0.5 border border-slate-700 text-xs">
@@ -125,7 +172,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   : 'text-slate-400'
               }`}
             >
-              1枚
+              {t('draw1')}
             </button>
             <button
               onClick={() => {
@@ -138,7 +185,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   : 'text-slate-400'
               }`}
             >
-              3枚
+              {t('draw3')}
             </button>
           </div>
         </div>
@@ -148,7 +195,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           onClick={onClose}
           className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition-colors shadow-md"
         >
-          保存して閉じる
+          {t('saveAndClose')}
         </button>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { AllStats } from '../../types/common';
 import { X, Trophy, Flame, Clock, Play } from 'lucide-react';
+import { useTranslation } from '../../i18n/LanguageContext';
 
 interface StatsModalProps {
   isOpen: boolean;
@@ -14,6 +15,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({
   onClose,
   stats,
 }) => {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   const formatTime = (secs: number | null) => {
@@ -24,12 +26,12 @@ export const StatsModal: React.FC<StatsModalProps> = ({
   };
 
   const statItems = [
-    { label: 'ソリティア (1枚めくり)', data: stats.solitaire_draw1, color: 'border-emerald-500/40 bg-emerald-950/20' },
-    { label: 'ソリティア (3枚めくり)', data: stats.solitaire_draw3, color: 'border-emerald-500/40 bg-emerald-950/20' },
-    { label: 'マインスイーパー (初級)', data: stats.minesweeper_easy, color: 'border-blue-500/40 bg-blue-950/20' },
-    { label: 'マインスイーパー (中級)', data: stats.minesweeper_medium, color: 'border-blue-500/40 bg-blue-950/20' },
-    { label: 'マインスイーパー (上級)', data: stats.minesweeper_hard, color: 'border-blue-500/40 bg-blue-950/20' },
-    { label: '上海 (タートル)', data: stats.shanghai_turtle, color: 'border-amber-500/40 bg-amber-950/20' },
+    { label: t('statSolitaireDraw1'), data: stats.solitaire_draw1, color: 'border-emerald-500/40 bg-emerald-950/20' },
+    { label: t('statSolitaireDraw3'), data: stats.solitaire_draw3, color: 'border-emerald-500/40 bg-emerald-950/20' },
+    { label: t('statMineEasy'), data: stats.minesweeper_easy, color: 'border-blue-500/40 bg-blue-950/20' },
+    { label: t('statMineMed'), data: stats.minesweeper_medium, color: 'border-blue-500/40 bg-blue-950/20' },
+    { label: t('statMineHard'), data: stats.minesweeper_hard, color: 'border-blue-500/40 bg-blue-950/20' },
+    { label: t('statShanghai'), data: stats.shanghai_turtle, color: 'border-amber-500/40 bg-amber-950/20' },
   ];
 
   return (
@@ -39,7 +41,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({
         <div className="flex items-center justify-between border-b border-slate-800 pb-3">
           <div className="flex items-center gap-2">
             <Trophy className="w-6 h-6 text-amber-400" />
-            <h2 className="text-lg sm:text-xl font-bold text-white">ゲーム戦績・統計</h2>
+            <h2 className="text-lg sm:text-xl font-bold text-white">{t('statsTitle')}</h2>
           </div>
           <button
             onClick={onClose}
@@ -65,7 +67,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({
                 <div className="flex justify-between items-center">
                   <span className="font-bold text-sm text-slate-200">{item.label}</span>
                   <span className="text-xs font-semibold text-slate-400">
-                    勝率: <span className="text-amber-400 font-bold">{winRate}%</span> ({item.data.won}/{item.data.played})
+                    {t('winRate')}: <span className="text-amber-400 font-bold">{winRate}%</span> ({item.data.won}/{item.data.played})
                   </span>
                 </div>
 
@@ -73,7 +75,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({
                   <div className="bg-slate-950/50 p-2 rounded-lg border border-slate-800">
                     <div className="flex items-center justify-center gap-1 text-slate-400 mb-0.5">
                       <Clock className="w-3 h-3 text-sky-400" />
-                      <span>ベストタイム</span>
+                      <span>{t('bestTime')}</span>
                     </div>
                     <span className="font-mono-digits font-bold text-sky-400 text-sm">
                       {formatTime(item.data.bestTime)}
@@ -83,7 +85,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({
                   <div className="bg-slate-950/50 p-2 rounded-lg border border-slate-800">
                     <div className="flex items-center justify-center gap-1 text-slate-400 mb-0.5">
                       <Flame className="w-3 h-3 text-orange-400" />
-                      <span>連勝 / 最高</span>
+                      <span>{t('streak')}</span>
                     </div>
                     <span className="font-mono-digits font-bold text-orange-400 text-sm">
                       {item.data.currentStreak} / {item.data.bestStreak}
@@ -93,10 +95,10 @@ export const StatsModal: React.FC<StatsModalProps> = ({
                   <div className="bg-slate-950/50 p-2 rounded-lg border border-slate-800">
                     <div className="flex items-center justify-center gap-1 text-slate-400 mb-0.5">
                       <Play className="w-3 h-3 text-emerald-400" />
-                      <span>プレイ数</span>
+                      <span>{t('playedCount')}</span>
                     </div>
                     <span className="font-mono-digits font-bold text-emerald-400 text-sm">
-                      {item.data.played}回
+                      {item.data.played} {t('times')}
                     </span>
                   </div>
                 </div>
@@ -110,7 +112,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({
           onClick={onClose}
           className="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl transition-colors mt-2"
         >
-          閉じる
+          {t('close')}
         </button>
       </div>
     </div>

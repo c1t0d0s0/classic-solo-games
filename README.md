@@ -32,9 +32,9 @@ A modern, responsive web portal for classic single-player games: **Klondike Soli
 - **Retro Look & Feel**: 7-segment LED counters, classic interactive smiley button (🙂/😮/😎/😵), and double-click/chord opening support.
 
 ### 3. 🀄 Shanghai (Mahjong Solitaire)
-- **Standard 144 Tiles**: Full set of Characters, Dots, Bamboo, Winds, Dragons, Flowers, and Seasons in the classic "Turtle" pyramid layout.
+- **Authentic Japanese Mahjong Tiles**: 144 tiles exclusively composed of standard Japanese Mahjong suits (Characters 1-9萬, Dots 1-9筒, Bamboo 1-9索, Winds 東南西北, and Dragons 白發中).
+- **Realistic 3D Engraving**: Intricate 1-Pin rosette flower, 1-Sou peacock, blank ivory Haku, jade-green melamine backing, and layered drop shadows.
 - **Guaranteed Solvable**: Custom reverse-generation algorithm guarantees every generated puzzle can be solved without dead ends.
-- **3D Isometric Depth**: Layered elevation with shadows and visual dimming for blocked tiles.
 - **Assistance Tools**:
   - **Hint**: Highlights an available matching pair with an animated pulse glow.
   - **Shuffle**: Re-arranges remaining tiles if you get stuck (up to 3 times per game).

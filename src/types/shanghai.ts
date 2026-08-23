@@ -1,12 +1,10 @@
 export type MahjongTileType = 
-  | 'wan'    // 萬子 (Characters: 1-9, 4 of each = 36)
-  | 'tong'   // 筒子 (Dots: 1-9, 4 of each = 36)
-  | 'tiao'   // 索子 (Bamboo: 1-9, 4 of each = 36)
-  | 'wind'   // 風牌 (East, South, West, North: 1-4, 4 of each = 16)
-  | 'dragon' // 三元牌 (Red, Green, White: 1-3, 4 of each = 12)
-  | 'flower' // 花牌 (Plum, Orchid, Chrysanthemum, Bamboo: 1-4, 1 of each = 4)
-  | 'season';// 季節牌 (Spring, Summer, Autumn, Winter: 1-4, 1 of each = 4)
-             // Total = 36 + 36 + 36 + 16 + 12 + 4 + 4 = 144 tiles (72 pairs)
+  | 'wan'    // 萬子 (Characters: 1-9萬)
+  | 'tong'   // 筒子 (Dots/Pinzu: 1-9筒)
+  | 'tiao'   // 索子 (Bamboo/Souzu: 1-9索)
+  | 'wind'   // 風牌 (Winds: 東, 南, 西, 北)
+  | 'dragon';// 三元牌 (Dragons: 白, 發, 中)
+             // Total = 144 tiles (72 pairs) of standard Japanese Mahjong tiles
 
 export interface TilePos {
   layer: number; // 0 is bottom-most

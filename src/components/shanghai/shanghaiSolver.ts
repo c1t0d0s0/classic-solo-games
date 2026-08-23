@@ -7,47 +7,49 @@ interface TilePair {
   value: number;
 }
 
-// Generate the standard 72 pairs (144 tiles)
+// Generate the standard 72 pairs (144 tiles) exclusively using Japanese Mahjong tiles
 export const createStandardTilePairs = (): [TilePair, TilePair][] => {
   const pairs: [TilePair, TilePair][] = [];
 
-  // Wan (1-9, 4 of each = 2 pairs of each)
+  // 萬子 (1-9萬, 4 of each = 18 pairs / 36 tiles)
   for (let val = 1; val <= 9; val++) {
     pairs.push([{ type: 'wan', value: val }, { type: 'wan', value: val }]);
     pairs.push([{ type: 'wan', value: val }, { type: 'wan', value: val }]);
   }
 
-  // Tong (1-9, 4 of each = 2 pairs of each)
+  // 筒子 (1-9筒, 4 of each = 18 pairs / 36 tiles)
   for (let val = 1; val <= 9; val++) {
     pairs.push([{ type: 'tong', value: val }, { type: 'tong', value: val }]);
     pairs.push([{ type: 'tong', value: val }, { type: 'tong', value: val }]);
   }
 
-  // Tiao (1-9, 4 of each = 2 pairs of each)
+  // 索子 (1-9索, 4 of each = 18 pairs / 36 tiles)
   for (let val = 1; val <= 9; val++) {
     pairs.push([{ type: 'tiao', value: val }, { type: 'tiao', value: val }]);
     pairs.push([{ type: 'tiao', value: val }, { type: 'tiao', value: val }]);
   }
 
-  // Winds (1-4, 4 of each = 2 pairs of each)
-  for (let val = 1; val <= 4; val++) {
-    pairs.push([{ type: 'wind', value: val }, { type: 'wind', value: val }]);
-    pairs.push([{ type: 'wind', value: val }, { type: 'wind', value: val }]);
-  }
+  // 風牌 (東, 南, 西, 北: 東×6, 南×6, 西×4, 北×4 = 10 pairs / 20 tiles)
+  pairs.push([{ type: 'wind', value: 1 }, { type: 'wind', value: 1 }]); // 東
+  pairs.push([{ type: 'wind', value: 1 }, { type: 'wind', value: 1 }]);
+  pairs.push([{ type: 'wind', value: 1 }, { type: 'wind', value: 1 }]);
+  pairs.push([{ type: 'wind', value: 2 }, { type: 'wind', value: 2 }]); // 南
+  pairs.push([{ type: 'wind', value: 2 }, { type: 'wind', value: 2 }]);
+  pairs.push([{ type: 'wind', value: 2 }, { type: 'wind', value: 2 }]);
+  pairs.push([{ type: 'wind', value: 3 }, { type: 'wind', value: 3 }]); // 西
+  pairs.push([{ type: 'wind', value: 3 }, { type: 'wind', value: 3 }]);
+  pairs.push([{ type: 'wind', value: 4 }, { type: 'wind', value: 4 }]); // 北
+  pairs.push([{ type: 'wind', value: 4 }, { type: 'wind', value: 4 }]);
 
-  // Dragons (1-3, 4 of each = 2 pairs of each)
-  for (let val = 1; val <= 3; val++) {
-    pairs.push([{ type: 'dragon', value: val }, { type: 'dragon', value: val }]);
-    pairs.push([{ type: 'dragon', value: val }, { type: 'dragon', value: val }]);
-  }
-
-  // Flowers (1-4: 2 pairs)
-  pairs.push([{ type: 'flower', value: 1 }, { type: 'flower', value: 2 }]);
-  pairs.push([{ type: 'flower', value: 3 }, { type: 'flower', value: 4 }]);
-
-  // Seasons (1-4: 2 pairs)
-  pairs.push([{ type: 'season', value: 1 }, { type: 'season', value: 2 }]);
-  pairs.push([{ type: 'season', value: 3 }, { type: 'season', value: 4 }]);
+  // 三元牌 (中, 發, 白: 中×6, 發×6, 白×4 = 8 pairs / 16 tiles)
+  pairs.push([{ type: 'dragon', value: 1 }, { type: 'dragon', value: 1 }]); // 中
+  pairs.push([{ type: 'dragon', value: 1 }, { type: 'dragon', value: 1 }]);
+  pairs.push([{ type: 'dragon', value: 1 }, { type: 'dragon', value: 1 }]);
+  pairs.push([{ type: 'dragon', value: 2 }, { type: 'dragon', value: 2 }]); // 發
+  pairs.push([{ type: 'dragon', value: 2 }, { type: 'dragon', value: 2 }]);
+  pairs.push([{ type: 'dragon', value: 2 }, { type: 'dragon', value: 2 }]);
+  pairs.push([{ type: 'dragon', value: 3 }, { type: 'dragon', value: 3 }]); // 白
+  pairs.push([{ type: 'dragon', value: 3 }, { type: 'dragon', value: 3 }]);
 
   // Shuffle pairs
   for (let i = pairs.length - 1; i > 0; i--) {

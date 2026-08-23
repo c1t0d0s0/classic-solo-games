@@ -51,8 +51,6 @@ export const isTileFree = (
 
 export const areTilesMatching = (t1: MahjongTile, t2: MahjongTile): boolean => {
   if (t1.id === t2.id) return false;
-  if (t1.type === 'flower' && t2.type === 'flower') return true;
-  if (t1.type === 'season' && t2.type === 'season') return true;
   return t1.type === t2.type && t1.value === t2.value;
 };
 
@@ -74,7 +72,7 @@ export const findAvailableMatchingPairs = (
   return pairs;
 };
 
-// Tile Type and Value labels
+// Tile Type and Value labels (Japanese Mahjong standard)
 export const getTileVisualInfo = (type: MahjongTileType, value: number) => {
   switch (type) {
     case 'wan':
@@ -107,43 +105,23 @@ export const getTileVisualInfo = (type: MahjongTileType, value: number) => {
         label: winds[value - 1],
         kanji: winds[value - 1],
         sub: '風',
-        color: 'text-slate-800',
+        color: 'text-slate-900',
         subColor: 'text-slate-500',
       };
     }
     case 'dragon': {
       const dragons = [
-        { label: '中', color: 'text-red-600' },
-        { label: '發', color: 'text-emerald-600' },
-        { label: '白', color: 'text-sky-600' },
+        { label: '中', sub: '中', color: 'text-red-600' },
+        { label: '發', sub: '發', color: 'text-emerald-600' },
+        { label: '白', sub: '白', color: 'text-slate-400' },
       ];
       const d = dragons[value - 1];
       return {
         label: d.label,
         kanji: d.label,
-        sub: '元',
+        sub: d.sub,
         color: d.color,
         subColor: 'text-slate-400',
-      };
-    }
-    case 'flower': {
-      const flowers = ['梅', '蘭', '菊', '竹'];
-      return {
-        label: flowers[value - 1],
-        kanji: flowers[value - 1],
-        sub: '🌸',
-        color: 'text-pink-600',
-        subColor: 'text-pink-500',
-      };
-    }
-    case 'season': {
-      const seasons = ['春', '夏', '秋', '冬'];
-      return {
-        label: seasons[value - 1],
-        kanji: seasons[value - 1],
-        sub: '季',
-        color: 'text-amber-700',
-        subColor: 'text-amber-600',
       };
     }
   }

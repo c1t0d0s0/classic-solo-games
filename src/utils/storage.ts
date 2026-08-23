@@ -23,6 +23,7 @@ const defaultAllStats: AllStats = {
 const defaultSettings: UserSettings = {
   soundEnabled: true,
   theme: 'classic',
+  language: 'auto',
   solitaireDrawMode: 1,
   solitaireAutoMove: true,
   minesweeperQuickFlag: false,

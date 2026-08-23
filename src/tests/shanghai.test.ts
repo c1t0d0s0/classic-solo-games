@@ -8,7 +8,7 @@ import { createStandardTilePairs, generateSolvableShanghaiBoard } from '../compo
 import { MahjongTile } from '../types/shanghai';
 
 describe('Shanghai / Mahjong Solitaire Logic Tests', () => {
-  it('should create exactly 72 pairs (144 tiles) in standard set', () => {
+  it('should create exactly 72 pairs (144 tiles) of Japanese Mahjong tiles', () => {
     const pairs = createStandardTilePairs();
     expect(pairs).toHaveLength(72);
 
@@ -20,16 +20,12 @@ describe('Shanghai / Mahjong Solitaire Logic Tests', () => {
     const tiaoCount = flat.filter((t) => t.type === 'tiao').length;
     const windCount = flat.filter((t) => t.type === 'wind').length;
     const dragonCount = flat.filter((t) => t.type === 'dragon').length;
-    const flowerCount = flat.filter((t) => t.type === 'flower').length;
-    const seasonCount = flat.filter((t) => t.type === 'season').length;
 
     expect(wanCount).toBe(36);
     expect(tongCount).toBe(36);
     expect(tiaoCount).toBe(36);
-    expect(windCount).toBe(16);
-    expect(dragonCount).toBe(12);
-    expect(flowerCount).toBe(4);
-    expect(seasonCount).toBe(4);
+    expect(windCount).toBe(20);
+    expect(dragonCount).toBe(16);
   });
 
   it('should validate tile matching rules accurately', () => {
@@ -37,26 +33,20 @@ describe('Shanghai / Mahjong Solitaire Logic Tests', () => {
     const wan1B: MahjongTile = { id: 2, type: 'wan', value: 1, layer: 0, x: 2, y: 0, isRemoved: false };
     const wan2: MahjongTile = { id: 3, type: 'wan', value: 2, layer: 0, x: 4, y: 0, isRemoved: false };
     const tong1: MahjongTile = { id: 4, type: 'tong', value: 1, layer: 0, x: 6, y: 0, isRemoved: false };
+    const windEast1: MahjongTile = { id: 5, type: 'wind', value: 1, layer: 0, x: 0, y: 0, isRemoved: false };
+    const windEast2: MahjongTile = { id: 6, type: 'wind', value: 1, layer: 0, x: 2, y: 0, isRemoved: false };
+    const dragonRed: MahjongTile = { id: 7, type: 'dragon', value: 1, layer: 0, x: 0, y: 0, isRemoved: false };
 
-    // Same suit and same value
+    // Same suit and same value match
     expect(areTilesMatching(wan1A, wan1B)).toBe(true);
-    // Same suit different value
+    expect(areTilesMatching(windEast1, windEast2)).toBe(true);
+
+    // Same suit different value do not match
     expect(areTilesMatching(wan1A, wan2)).toBe(false);
-    // Different suit same value
+
+    // Different suit same value do not match
     expect(areTilesMatching(wan1A, tong1)).toBe(false);
-
-    // Flowers match any flower (even different values 1 and 4)
-    const flower1: MahjongTile = { id: 5, type: 'flower', value: 1, layer: 0, x: 0, y: 0, isRemoved: false };
-    const flower4: MahjongTile = { id: 6, type: 'flower', value: 4, layer: 0, x: 2, y: 0, isRemoved: false };
-    expect(areTilesMatching(flower1, flower4)).toBe(true);
-
-    // Seasons match any season (even different values 2 and 3)
-    const season2: MahjongTile = { id: 7, type: 'season', value: 2, layer: 0, x: 0, y: 0, isRemoved: false };
-    const season3: MahjongTile = { id: 8, type: 'season', value: 3, layer: 0, x: 2, y: 0, isRemoved: false };
-    expect(areTilesMatching(season2, season3)).toBe(true);
-
-    // Season does NOT match flower
-    expect(areTilesMatching(season2, flower1)).toBe(false);
+    expect(areTilesMatching(windEast1, dragonRed)).toBe(false);
   });
 
   it('should accurately detect free and blocked tiles', () => {

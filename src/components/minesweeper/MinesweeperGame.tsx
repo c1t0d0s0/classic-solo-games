@@ -13,6 +13,7 @@ import { sounds } from '../../audio/soundEffects';
 import { triggerVictoryConfetti } from '../../utils/confetti';
 import { saveGameResult } from '../../utils/storage';
 import { Flag, Bomb, Volume2, VolumeX, Award, ZoomIn, ZoomOut } from 'lucide-react';
+import { useTranslation } from '../../i18n/LanguageContext';
 
 interface MinesweeperGameProps {
   initialDifficulty?: DifficultyLevel;
@@ -23,6 +24,7 @@ export const MinesweeperGame: React.FC<MinesweeperGameProps> = ({
   initialDifficulty = 'easy',
   onOpenStats,
 }) => {
+  const { t } = useTranslation();
   const [difficulty, setDifficulty] = useState<DifficultyLevel>(initialDifficulty);
   const config = DIFFICULTY_CONFIGS[difficulty];
 
@@ -291,19 +293,22 @@ export const MinesweeperGame: React.FC<MinesweeperGameProps> = ({
       <div className="w-full max-w-2xl flex flex-wrap items-center justify-between gap-2 px-3 py-2 bg-slate-800/80 backdrop-blur rounded-xl border border-slate-700/80 mb-4 shadow-lg">
         {/* Difficulty Select */}
         <div className="flex rounded-lg bg-slate-900/70 p-0.5 border border-slate-700 text-xs">
-          {(['easy', 'medium', 'hard'] as DifficultyLevel[]).map((lvl) => (
-            <button
-              key={lvl}
-              onClick={() => handleDifficultyChange(lvl)}
-              className={`px-2.5 py-1 rounded-md transition-all font-medium ${
-                difficulty === lvl
-                  ? 'bg-indigo-600 text-white shadow'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              {DIFFICULTY_CONFIGS[lvl].label.split(' ')[0]}
-            </button>
-          ))}
+          {(['easy', 'medium', 'hard'] as DifficultyLevel[]).map((lvl) => {
+            const labelKey = lvl === 'easy' ? 'diffEasy' : lvl === 'medium' ? 'diffMedium' : 'diffHard';
+            return (
+              <button
+                key={lvl}
+                onClick={() => handleDifficultyChange(lvl)}
+                className={`px-2.5 py-1 rounded-md transition-all font-medium ${
+                  difficulty === lvl
+                    ? 'bg-indigo-600 text-white shadow'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                {t(labelKey).split(' ')[0]}
+              </button>
+            );
+          })}
         </div>
 
         {/* Mobile Flag Mode Toggle */}
@@ -317,7 +322,7 @@ export const MinesweeperGame: React.FC<MinesweeperGameProps> = ({
             }`}
           >
             {state.flagMode ? <Flag className="w-3.5 h-3.5 fill-white" /> : <Bomb className="w-3.5 h-3.5" />}
-            <span>{state.flagMode ? '旗モード' : '開くモード'}</span>
+            <span>{state.flagMode ? t('flagModeActive') : t('openModeActive')}</span>
           </button>
 
           {/* Zoom controls (helpful for hard difficulty on small screens) */}
@@ -326,7 +331,7 @@ export const MinesweeperGame: React.FC<MinesweeperGameProps> = ({
               <button
                 onClick={() => setZoomScale((s) => Math.max(0.7, s - 0.1))}
                 className="p-1 hover:bg-slate-600 rounded text-slate-300"
-                title="縮小"
+                title={t('zoomOut')}
               >
                 <ZoomOut className="w-3.5 h-3.5" />
               </button>
@@ -339,7 +344,7 @@ export const MinesweeperGame: React.FC<MinesweeperGameProps> = ({
               <button
                 onClick={() => setZoomScale((s) => Math.min(1.4, s + 0.1))}
                 className="p-1 hover:bg-slate-600 rounded text-slate-300"
-                title="拡大"
+                title={t('zoomIn')}
               >
                 <ZoomIn className="w-3.5 h-3.5" />
               </button>
