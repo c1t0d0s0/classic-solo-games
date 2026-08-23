@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'M PLUS Rounded 1c', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+.font-mono-digits {
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* 3D Mahjong Tile Shadows and Perspective */
+.mahjong-board-container {
+  perspective: 1200px;
+}
+
+.mahjong-tile-shadow {
+  box-shadow: 
+    2px 3px 0px rgba(0, 0, 0, 0.25),
+    4px 6px 6px rgba(0, 0, 0, 0.35);
+}
+
+.mahjong-tile-selected {
+  box-shadow: 
+    0 0 0 3px #fbbf24,
+    0 0 16px rgba(251, 191, 36, 0.8);
+  transform: translateY(-4px);
+}
+
+.mahjong-tile-hint {
+  animation: pulse-hint 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse-hint {
+  0%, 100% {
+    box-shadow: 0 0 0 3px #38bdf8, 0 0 12px rgba(56, 189, 248, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 5px #0284c7, 0 0 20px rgba(2, 132, 199, 0.9);
+  }
+}
+
+/* 7-Segment style LED glow for Minesweeper */
+.led-display {
+  background: #0f172a;
+  color: #ef4444;
+  text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+}
+
+/* Card Glow Effect */
+.card-highlight {
+  box-shadow: 0 0 0 3px #3b82f6, 0 0 12px rgba(59, 130, 246, 0.6);
+}
+
+/* Solitaire Tableau Stacking Offsets */
+.tableau-col {
+  --facedown-step: 14px;
+  --faceup-step: 24px;
+}
+@media (min-width: 640px) {
+  .tableau-col {
+    --facedown-step: 18px;
+    --faceup-step: 30px;
+  }
+}
+@media (min-width: 768px) {
+  .tableau-col {
+    --facedown-step: 22px;
+    --faceup-step: 34px;
+  }
+}
+
