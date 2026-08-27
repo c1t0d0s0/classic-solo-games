@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import { Card, PileType, SolitaireSnapshot, SolitaireState } from '../../types/solitaire';
 import {
   canMoveToFoundation,
@@ -17,6 +17,8 @@ import { triggerVictoryConfetti } from '../../utils/confetti';
 import { saveGameResult } from '../../utils/storage';
 import { Play, RotateCcw, Zap, Volume2, VolumeX, Award } from 'lucide-react';
 import { useTranslation } from '../../i18n/LanguageContext';
+
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 interface SolitaireGameProps {
   drawMode?: 1 | 3;
@@ -38,7 +40,13 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
   const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(false);
   const [soundMuted, setSoundMuted] = useState<boolean>(sounds.isSoundMuted());
 
-  // Drag source state
+  // Animation & Drag Refs
+  const boardRef = useRef<HTMLDivElement>(null);
+  const stockPileRef = useRef<HTMLDivElement>(null);
+  const prevPositionsRef = useRef<Map<string, DOMRect>>(new Map());
+  const isInitialRenderRef = useRef<boolean>(true);
+  const isNewGameRef = useRef<boolean>(false);
+
   const dragSourceRef = useRef<{
     pileType: PileType;
     pileIndex: number;
@@ -94,6 +102,7 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
   // Restart / New Game
   const startNewGame = useCallback((newDrawMode: 1 | 3 = state.drawMode) => {
     sounds.playClick();
+    isNewGameRef.current = true;
     const fresh = initializeSolitaireGame(newDrawMode);
     setState(fresh);
     setHistory([]);
@@ -409,6 +418,98 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
     return () => clearInterval(interval);
   }, [isAutoPlaying, checkAndHandleWin]);
 
+  // FLIP Card Movement Animation Effect
+  useIsomorphicLayoutEffect(() => {
+    if (!boardRef.current) return;
+
+    if (isInitialRenderRef.current) {
+      isInitialRenderRef.current = false;
+      const initialPositions = new Map<string, DOMRect>();
+      const cardEls = boardRef.current.querySelectorAll<HTMLElement>('[data-card-id]');
+      cardEls.forEach((el) => {
+        const id = el.getAttribute('data-card-id');
+        if (id) {
+          initialPositions.set(id, el.getBoundingClientRect());
+        }
+      });
+      prevPositionsRef.current = initialPositions;
+      return;
+    }
+
+    if (isNewGameRef.current) {
+      isNewGameRef.current = false;
+      const newPositions = new Map<string, DOMRect>();
+      const cardEls = boardRef.current.querySelectorAll<HTMLElement>('[data-card-id]');
+      cardEls.forEach((el) => {
+        const id = el.getAttribute('data-card-id');
+        if (id) {
+          newPositions.set(id, el.getBoundingClientRect());
+        }
+      });
+      prevPositionsRef.current = newPositions;
+      return;
+    }
+
+    const prevPositions = prevPositionsRef.current;
+    const currentPositions = new Map<string, DOMRect>();
+    const cardEls = boardRef.current.querySelectorAll<HTMLElement>('[data-card-id]');
+    const stockRect = stockPileRef.current?.getBoundingClientRect();
+
+    cardEls.forEach((el) => {
+      const id = el.getAttribute('data-card-id');
+      if (!id) return;
+
+      const newRect = el.getBoundingClientRect();
+      currentPositions.set(id, newRect);
+
+      let oldRect = prevPositions.get(id);
+
+      // If card was newly drawn from stock into waste and wasn't in DOM before, animate from stock pile position
+      if (!oldRect && el.closest('[data-pile-type="waste"]') && stockRect) {
+        oldRect = stockRect;
+      }
+
+      if (oldRect) {
+        const deltaX = oldRect.left - newRect.left;
+        const deltaY = oldRect.top - newRect.top;
+        const distance = Math.hypot(deltaX, deltaY);
+
+        if (distance > 2 && typeof el.animate === 'function') {
+          const parentPile = el.closest<HTMLElement>('.tableau-col, .solitaire-pile-container');
+          if (parentPile) {
+            parentPile.style.zIndex = '50';
+          }
+
+          const animation = el.animate(
+            [
+              {
+                transform: `translate3d(${deltaX}px, ${deltaY}px, 0)`,
+                zIndex: '999',
+              },
+              {
+                transform: 'translate3d(0, 0, 0)',
+                zIndex: '999',
+              },
+            ],
+            {
+              duration: isAutoPlaying ? 120 : 230,
+              easing: 'cubic-bezier(0.2, 0.85, 0.35, 1.0)',
+              fill: 'none',
+            }
+          );
+
+          animation.onfinish = () => {
+            if (parentPile) {
+              parentPile.style.zIndex = '';
+            }
+          };
+        }
+      }
+    });
+
+    prevPositionsRef.current = currentPositions;
+  }, [state, isAutoPlaying]);
+
   const toggleSound = () => {
     const next = !soundMuted;
     setSoundMuted(next);
@@ -520,44 +621,106 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
       </div>
 
       {/* Main Playing Felt Board */}
-      <div className="w-full max-w-4xl bg-emerald-800/90 rounded-2xl p-2 sm:p-4 md:p-6 shadow-2xl border-4 border-emerald-950/60 ring-1 ring-emerald-600/30 flex flex-col gap-4 sm:gap-6 min-h-[480px]">
+      <div
+        ref={boardRef}
+        className="w-full max-w-4xl bg-emerald-800/90 rounded-2xl p-2 sm:p-4 md:p-6 shadow-2xl border-4 border-emerald-950/60 ring-1 ring-emerald-600/30 flex flex-col gap-4 sm:gap-6 min-h-[480px]"
+      >
         {/* Top Row: Stock & Waste on Left, 4 Foundations on Right */}
         <div className="flex justify-between items-start">
           {/* Stock & Waste */}
           <div className="flex gap-2 sm:gap-3 md:gap-4">
             {/* Stock */}
-            <SolitairePile
-              type="stock"
-              isEmpty={state.stock.length === 0}
-              onClick={handleStockClick}
-            >
-              {state.stock.length > 0 && (
-                <SolitaireCard
-                  card={state.stock[state.stock.length - 1]}
-                  className="cursor-pointer active:scale-95 hover:scale-102"
-                />
-              )}
-            </SolitairePile>
+            <div ref={stockPileRef}>
+              <SolitairePile
+                type="stock"
+                isEmpty={state.stock.length === 0}
+                onClick={handleStockClick}
+              >
+                {state.stock.length > 0 && (
+                  <div
+                    data-card-id={state.stock[state.stock.length - 1].id}
+                    className="w-full h-full"
+                  >
+                    <SolitaireCard
+                      card={state.stock[state.stock.length - 1]}
+                      className="cursor-pointer active:scale-95 hover:scale-102"
+                    />
+                  </div>
+                )}
+              </SolitairePile>
+            </div>
 
             {/* Waste */}
-            <SolitairePile type="waste" isEmpty={state.waste.length === 0}>
-              {state.waste.length > 0 && (
-                <SolitaireCard
-                  card={state.waste[state.waste.length - 1]}
-                  isSelected={
-                    selectedCardInfo?.pileType === 'waste' &&
-                    selectedCardInfo?.cardIndex === state.waste.length - 1
-                  }
-                  onClick={() =>
-                    handleCardClick('waste', 0, state.waste.length - 1, state.waste[state.waste.length - 1])
-                  }
-                  onDoubleClick={() =>
-                    handleCardDoubleClick('waste', 0, state.waste.length - 1, state.waste[state.waste.length - 1])
-                  }
-                  onDragStart={(e) => handleDragStart(e, 'waste', 0, state.waste.length - 1)}
-                />
-              )}
-            </SolitairePile>
+            <div data-pile-type="waste">
+              <SolitairePile type="waste" isEmpty={state.waste.length === 0}>
+                {state.waste.length > 0 && (
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    {state.drawMode === 3 ? (
+                      state.waste.slice(-3).map((card, idx, arr) => {
+                        const actualIndex = state.waste.length - arr.length + idx;
+                        const isTopCard = idx === arr.length - 1;
+                        const offset = (idx - (arr.length - 1)) * 14;
+                        return (
+                          <div
+                            key={card.id}
+                            data-card-id={card.id}
+                            className="absolute transition-none"
+                            style={{
+                              transform: `translateX(${offset}px)`,
+                              zIndex: idx + 1,
+                            }}
+                          >
+                            <SolitaireCard
+                              card={card}
+                              isSelected={
+                                isTopCard &&
+                                selectedCardInfo?.pileType === 'waste' &&
+                                selectedCardInfo?.cardIndex === actualIndex
+                              }
+                              onClick={
+                                isTopCard
+                                  ? () => handleCardClick('waste', 0, actualIndex, card)
+                                  : undefined
+                              }
+                              onDoubleClick={
+                                isTopCard
+                                  ? () => handleCardDoubleClick('waste', 0, actualIndex, card)
+                                  : undefined
+                              }
+                              onDragStart={
+                                isTopCard
+                                  ? (e) => handleDragStart(e, 'waste', 0, actualIndex)
+                                  : undefined
+                              }
+                            />
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <div
+                        data-card-id={state.waste[state.waste.length - 1].id}
+                        className="w-full h-full"
+                      >
+                        <SolitaireCard
+                          card={state.waste[state.waste.length - 1]}
+                          isSelected={
+                            selectedCardInfo?.pileType === 'waste' &&
+                            selectedCardInfo?.cardIndex === state.waste.length - 1
+                          }
+                          onClick={() =>
+                            handleCardClick('waste', 0, state.waste.length - 1, state.waste[state.waste.length - 1])
+                          }
+                          onDoubleClick={() =>
+                            handleCardDoubleClick('waste', 0, state.waste.length - 1, state.waste[state.waste.length - 1])
+                          }
+                          onDragStart={(e) => handleDragStart(e, 'waste', 0, state.waste.length - 1)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </SolitairePile>
+            </div>
           </div>
 
           {/* 4 Foundations */}
@@ -580,15 +743,17 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
                   }}
                 >
                   {topCard && (
-                    <SolitaireCard
-                      card={topCard}
-                      isSelected={
-                        selectedCardInfo?.pileType === 'foundation' &&
-                        selectedCardInfo?.pileIndex === idx
-                      }
-                      onClick={() => handleCardClick('foundation', idx, pile.length - 1, topCard)}
-                      onDragStart={(e) => handleDragStart(e, 'foundation', idx, pile.length - 1)}
-                    />
+                    <div data-card-id={topCard.id} className="w-full h-full">
+                      <SolitaireCard
+                        card={topCard}
+                        isSelected={
+                          selectedCardInfo?.pileType === 'foundation' &&
+                          selectedCardInfo?.pileIndex === idx
+                        }
+                        onClick={() => handleCardClick('foundation', idx, pile.length - 1, topCard)}
+                        onDragStart={(e) => handleDragStart(e, 'foundation', idx, pile.length - 1)}
+                      />
+                    </div>
                   )}
                 </SolitairePile>
               );
@@ -609,7 +774,7 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
             return (
               <div
                 key={colIdx}
-                className="flex flex-col items-center w-full min-h-[160px] sm:min-h-[220px] tableau-col"
+                className="flex flex-col items-center w-full min-h-[160px] sm:min-h-[220px] tableau-col relative"
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, 'tableau', colIdx)}
               >
@@ -642,6 +807,7 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
                       return (
                         <div
                           key={card.id}
+                          data-card-id={card.id}
                           className="absolute"
                           style={{
                             top: `calc(${faceDownCount} * var(--facedown-step) + ${faceUpCount} * var(--faceup-step))`,

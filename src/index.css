@@ -74,18 +74,18 @@
 /* Solitaire Tableau Stacking Offsets */
 .tableau-col {
   --facedown-step: 14px;
-  --faceup-step: 24px;
+  --faceup-step: 26px;
 }
 @media (min-width: 640px) {
   .tableau-col {
     --facedown-step: 18px;
-    --faceup-step: 30px;
+    --faceup-step: 32px;
   }
 }
 @media (min-width: 768px) {
   .tableau-col {
     --facedown-step: 22px;
-    --faceup-step: 34px;
+    --faceup-step: 36px;
   }
 }
 

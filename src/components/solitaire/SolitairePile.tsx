@@ -28,20 +28,20 @@ export const SolitairePile: React.FC<SolitairePileProps> = ({
       onClick={onClick}
       onDragOver={onDragOver}
       onDrop={onDrop}
-      className={`w-11 h-16 sm:w-16 sm:h-24 md:w-20 md:h-28 rounded-md sm:rounded-lg relative flex items-center justify-center transition-colors ${
+      className={`solitaire-pile-container w-11 h-16 sm:w-16 sm:h-24 md:w-20 md:h-28 rounded-md sm:rounded-lg relative flex items-center justify-center transition-colors ${
         isEmpty
           ? 'border-2 border-dashed border-white/25 bg-black/15 hover:border-white/40'
           : ''
       } ${className}`}
     >
       {isEmpty && type === 'foundation' && suit && (
-        <span className="text-white/20 text-xl sm:text-2xl font-bold select-none">
+        <span className="text-white/25 text-2xl sm:text-3xl md:text-4xl font-bold select-none">
           {getSuitSymbol(suit)}
         </span>
       )}
       {isEmpty && type === 'stock' && (
-        <div className="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center">
-          <span className="text-white/30 text-xs">↺</span>
+        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-white/25 flex items-center justify-center">
+          <span className="text-white/40 text-sm sm:text-base">↺</span>
         </div>
       )}
       {children}
