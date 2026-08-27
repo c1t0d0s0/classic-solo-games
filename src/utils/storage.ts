@@ -18,6 +18,10 @@ const defaultAllStats: AllStats = {
   minesweeper_medium: defaultGameStats(),
   minesweeper_hard: defaultGameStats(),
   shanghai_turtle: defaultGameStats(),
+  shanghai_fortress: defaultGameStats(),
+  shanghai_canyon: defaultGameStats(),
+  shanghai_spider: defaultGameStats(),
+  shanghai_dragon: defaultGameStats(),
 };
 
 const defaultSettings: UserSettings = {

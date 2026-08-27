@@ -1,4 +1,5 @@
 export type SupportedLanguage = 'ja' | 'en';
+export type TranslationKey = keyof typeof translations.ja;
 
 export const translations = {
   ja: {
@@ -94,8 +95,19 @@ export const translations = {
     shanghaiAvailable: '可能ペア',
     shanghaiHint: 'ヒント',
     shanghaiShuffle: '再配置',
+    shanghaiLayout: '山の形',
     shanghaiStuckWarning: '⚠️ 手詰まりになりました！「再配置」ボタンで牌をシャッフルできます。',
     shanghaiShuffleNow: '今すぐ再配置',
+    layoutTurtle: 'タートル (亀)',
+    layoutTurtleDesc: '伝統的なピラミッド型。バランスの取れた名作配置。',
+    layoutFortress: 'フォートレス (城塞)',
+    layoutFortressDesc: '四隅の高い城塞塔と本丸。外側から攻略する重厚な山。',
+    layoutCanyon: 'キャニオン (峡谷)',
+    layoutCanyonDesc: '深い峡谷で分断された双峰の山と渡り橋。',
+    layoutSpider: 'スパイダー (蜘蛛)',
+    layoutSpiderDesc: '放射状に広がる8本の脚と盛り上がった胴体。',
+    layoutDragon: 'ドラゴン (昇龍)',
+    layoutDragonDesc: 'うねる龍の身体と右手に輝く神秘の宝珠。',
 
     // Stats
     statsTitle: 'ゲーム戦績・統計',
@@ -104,6 +116,11 @@ export const translations = {
     statMineEasy: 'マインスイーパー (初級)',
     statMineMed: 'マインスイーパー (中級)',
     statMineHard: 'マインスイーパー (上級)',
+    statShanghaiTurtle: '上海 (タートル)',
+    statShanghaiFortress: '上海 (フォートレス)',
+    statShanghaiCanyon: '上海 (キャニオン)',
+    statShanghaiSpider: '上海 (スパイダー)',
+    statShanghaiDragon: '上海 (ドラゴン)',
     statShanghai: '上海 (タートル)',
   },
 
@@ -200,8 +217,19 @@ export const translations = {
     shanghaiAvailable: 'Matches',
     shanghaiHint: 'Hint',
     shanghaiShuffle: 'Shuffle',
+    shanghaiLayout: 'Layout',
     shanghaiStuckWarning: '⚠️ No moves left! Click "Shuffle" to re-arrange remaining tiles.',
     shanghaiShuffleNow: 'Shuffle Now',
+    layoutTurtle: 'Turtle (Classic)',
+    layoutTurtleDesc: 'The iconic traditional pyramid pattern.',
+    layoutFortress: 'Fortress',
+    layoutFortressDesc: '4 high corner bastion towers surrounding a castle keep.',
+    layoutCanyon: 'Canyon',
+    layoutCanyonDesc: 'Twin mountain summits linked by a canyon bridge.',
+    layoutSpider: 'Spider',
+    layoutSpiderDesc: 'Eight radiating legs with a raised central thorax.',
+    layoutDragon: 'Dragon',
+    layoutDragonDesc: 'A majestic winding dragon with a gleaming mystical pearl.',
 
     // Stats
     statsTitle: 'Game Statistics',
@@ -210,6 +238,11 @@ export const translations = {
     statMineEasy: 'Minesweeper (Beginner)',
     statMineMed: 'Minesweeper (Intermediate)',
     statMineHard: 'Minesweeper (Expert)',
+    statShanghaiTurtle: 'Shanghai (Turtle)',
+    statShanghaiFortress: 'Shanghai (Fortress)',
+    statShanghaiCanyon: 'Shanghai (Canyon)',
+    statShanghaiSpider: 'Shanghai (Spider)',
+    statShanghaiDragon: 'Shanghai (Dragon)',
     statShanghai: 'Shanghai (Turtle)',
   },
 };

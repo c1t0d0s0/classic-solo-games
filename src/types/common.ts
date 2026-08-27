@@ -17,6 +17,10 @@ export interface AllStats {
   minesweeper_medium: GameStats;
   minesweeper_hard: GameStats;
   shanghai_turtle: GameStats;
+  shanghai_fortress: GameStats;
+  shanghai_canyon: GameStats;
+  shanghai_spider: GameStats;
+  shanghai_dragon: GameStats;
 }
 
 export interface UserSettings {

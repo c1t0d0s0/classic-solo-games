@@ -6,6 +6,8 @@ export type MahjongTileType =
   | 'dragon';// 三元牌 (Dragons: 白, 發, 中)
              // Total = 144 tiles (72 pairs) of standard Japanese Mahjong tiles
 
+export type ShanghaiLayoutId = 'turtle' | 'fortress' | 'canyon' | 'spider' | 'dragon';
+
 export interface TilePos {
   layer: number; // 0 is bottom-most
   x: number;     // In half-tile units (e.g. 0 to 30)
@@ -32,4 +34,5 @@ export interface ShanghaiState {
   isWon: boolean;
   isStuck: boolean;
   shufflesRemaining: number;
+  layout: ShanghaiLayoutId;
 }

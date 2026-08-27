@@ -79,8 +79,18 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
       ],
       gradient: 'from-amber-900/60 via-amber-950/40 to-slate-900',
       border: 'border-amber-600/40 hover:border-amber-500',
-      played: stats.shanghai_turtle.played,
-      won: stats.shanghai_turtle.won,
+      played:
+        stats.shanghai_turtle.played +
+        (stats.shanghai_fortress?.played || 0) +
+        (stats.shanghai_canyon?.played || 0) +
+        (stats.shanghai_spider?.played || 0) +
+        (stats.shanghai_dragon?.played || 0),
+      won:
+        stats.shanghai_turtle.won +
+        (stats.shanghai_fortress?.won || 0) +
+        (stats.shanghai_canyon?.won || 0) +
+        (stats.shanghai_spider?.won || 0) +
+        (stats.shanghai_dragon?.won || 0),
     },
   ];
 

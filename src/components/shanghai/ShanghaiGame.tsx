@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { MahjongTile, ShanghaiState } from '../../types/shanghai';
+import { AllStats } from '../../types/common';
+import { MahjongTile, ShanghaiLayoutId, ShanghaiState } from '../../types/shanghai';
 import {
   areTilesMatching,
   findAvailableMatchingPairs,
   isTileFree,
 } from './shanghaiLogic';
+import { LAYOUT_METADATA } from './shanghaiLayouts';
 import { generateSolvableShanghaiBoard } from './shanghaiSolver';
 import { MahjongTileComponent } from './MahjongTile';
 import { sounds } from '../../audio/soundEffects';
@@ -22,13 +24,17 @@ import {
 import { useTranslation } from '../../i18n/LanguageContext';
 
 interface ShanghaiGameProps {
+  initialLayout?: ShanghaiLayoutId;
   onOpenStats?: () => void;
 }
 
-export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
+export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({
+  initialLayout = 'turtle',
+  onOpenStats,
+}) => {
   const { t } = useTranslation();
   const [state, setState] = useState<ShanghaiState>(() => ({
-    tiles: generateSolvableShanghaiBoard(),
+    tiles: generateSolvableShanghaiBoard(initialLayout),
     selectedTileId: null,
     hintPair: null,
     history: [],
@@ -37,6 +43,7 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
     isWon: false,
     isStuck: false,
     shufflesRemaining: 3,
+    layout: initialLayout,
   }));
 
   const [soundMuted, setSoundMuted] = useState<boolean>(sounds.isSoundMuted());
@@ -102,10 +109,10 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
   }, [state.isPlaying, state.isWon]);
 
   // Start New Game
-  const startNewGame = useCallback(() => {
+  const startNewGame = useCallback((newLayout: ShanghaiLayoutId = state.layout) => {
     sounds.playClick();
     setState({
-      tiles: generateSolvableShanghaiBoard(),
+      tiles: generateSolvableShanghaiBoard(newLayout),
       selectedTileId: null,
       hintPair: null,
       history: [],
@@ -114,8 +121,15 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
       isWon: false,
       isStuck: false,
       shufflesRemaining: 3,
+      layout: newLayout,
     });
-  }, []);
+  }, [state.layout]);
+
+  const handleChangeLayout = (newLayout: ShanghaiLayoutId) => {
+    if (newLayout !== state.layout) {
+      startNewGame(newLayout);
+    }
+  };
 
   // Tile Click Handler
   const handleTileClick = (clickedTile: MahjongTile) => {
@@ -163,7 +177,7 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
       if (isWon) {
         sounds.playVictory();
         triggerVictoryConfetti();
-        saveGameResult('shanghai_turtle', true, state.timeSeconds);
+        saveGameResult(`shanghai_${state.layout}` as keyof AllStats, true, state.timeSeconds);
       }
 
       // Check if stuck
@@ -273,7 +287,7 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
   return (
     <div className="w-full flex flex-col items-center select-none pb-8">
       {/* Top Controls & Status Bar */}
-      <div className="w-full max-w-4xl flex flex-wrap items-center justify-between gap-2 px-3 py-2 bg-slate-800/80 backdrop-blur rounded-xl border border-slate-700/80 mb-4 shadow-lg">
+      <div className="w-full max-w-4xl flex flex-wrap items-center justify-between gap-2 px-3 py-2 bg-slate-800/80 backdrop-blur rounded-xl border border-slate-700/80 mb-3 shadow-lg">
         {/* Info Stats */}
         <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold">
           <div className="flex items-center gap-1.5 bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-700">
@@ -329,7 +343,7 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
 
           {/* New Game */}
           <button
-            onClick={startNewGame}
+            onClick={() => startNewGame()}
             className="flex items-center gap-1 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs sm:text-sm font-bold rounded-lg shadow-md transition-all"
             title={t('newGame')}
           >
@@ -356,6 +370,33 @@ export const ShanghaiGame: React.FC<ShanghaiGameProps> = ({ onOpenStats }) => {
           >
             {soundMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
           </button>
+        </div>
+      </div>
+
+      {/* Layout Selection Switcher */}
+      <div className="w-full max-w-4xl flex flex-wrap items-center justify-between gap-2 px-3 py-2 bg-slate-900/70 backdrop-blur rounded-xl border border-slate-700/80 mb-3 shadow">
+        <div className="flex items-center gap-1.5 text-xs text-slate-300 font-semibold">
+          <span className="text-slate-400">{t('shanghaiLayout')}:</span>
+          <span className="text-amber-400 font-bold">
+            {t(LAYOUT_METADATA.find((m) => m.id === state.layout)?.nameKey || 'layoutTurtle')}
+          </span>
+        </div>
+        <div className="flex flex-wrap gap-1.5 items-center justify-end">
+          {LAYOUT_METADATA.map((meta) => (
+            <button
+              key={meta.id}
+              onClick={() => handleChangeLayout(meta.id)}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition-all active:scale-95 ${
+                state.layout === meta.id
+                  ? 'bg-amber-600 text-white shadow-md shadow-amber-900/40 ring-1 ring-amber-300'
+                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'
+              }`}
+              title={t(meta.descKey)}
+            >
+              <span>{meta.iconSymbol}</span>
+              <span>{t(meta.nameKey)}</span>
+            </button>
+          ))}
         </div>
       </div>
 

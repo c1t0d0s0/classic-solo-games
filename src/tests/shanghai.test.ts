@@ -71,11 +71,20 @@ describe('Shanghai / Mahjong Solitaire Logic Tests', () => {
     expect(isTileFree(topTile, withTop)).toBe(true);
   });
 
-  it('should generate a 144-tile solvable board with available moves', () => {
-    const board = generateSolvableShanghaiBoard();
-    expect(board).toHaveLength(144);
+  it('should verify all 5 layouts have exactly 144 tiles', () => {
+    const layoutIds: ('turtle' | 'fortress' | 'canyon' | 'spider' | 'dragon')[] = [
+      'turtle',
+      'fortress',
+      'canyon',
+      'spider',
+      'dragon',
+    ];
 
-    const available = findAvailableMatchingPairs(board);
-    expect(available.length).toBeGreaterThan(0);
+    layoutIds.forEach((id) => {
+      const board = generateSolvableShanghaiBoard(id);
+      expect(board).toHaveLength(144);
+      const available = findAvailableMatchingPairs(board);
+      expect(available.length).toBeGreaterThan(0);
+    });
   });
 });

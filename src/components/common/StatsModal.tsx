@@ -31,7 +31,11 @@ export const StatsModal: React.FC<StatsModalProps> = ({
     { label: t('statMineEasy'), data: stats.minesweeper_easy, color: 'border-blue-500/40 bg-blue-950/20' },
     { label: t('statMineMed'), data: stats.minesweeper_medium, color: 'border-blue-500/40 bg-blue-950/20' },
     { label: t('statMineHard'), data: stats.minesweeper_hard, color: 'border-blue-500/40 bg-blue-950/20' },
-    { label: t('statShanghai'), data: stats.shanghai_turtle, color: 'border-amber-500/40 bg-amber-950/20' },
+    { label: t('statShanghaiTurtle'), data: stats.shanghai_turtle, color: 'border-amber-500/40 bg-amber-950/20' },
+    { label: t('statShanghaiFortress'), data: stats.shanghai_fortress || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-amber-500/40 bg-amber-950/20' },
+    { label: t('statShanghaiCanyon'), data: stats.shanghai_canyon || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-amber-500/40 bg-amber-950/20' },
+    { label: t('statShanghaiSpider'), data: stats.shanghai_spider || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-amber-500/40 bg-amber-950/20' },
+    { label: t('statShanghaiDragon'), data: stats.shanghai_dragon || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-amber-500/40 bg-amber-950/20' },
   ];
 
   return (

@@ -1,5 +1,5 @@
-import { MahjongTile, MahjongTileType } from '../../types/shanghai';
-import { TURTLE_LAYOUT } from './shanghaiLayouts';
+import { MahjongTile, MahjongTileType, ShanghaiLayoutId } from '../../types/shanghai';
+import { SHANGHAI_LAYOUTS, TURTLE_LAYOUT } from './shanghaiLayouts';
 import { isTileFree } from './shanghaiLogic';
 
 interface TilePair {
@@ -60,13 +60,14 @@ export const createStandardTilePairs = (): [TilePair, TilePair][] => {
   return pairs;
 };
 
-// Generates a guaranteed solvable Shanghai board
-export const generateSolvableShanghaiBoard = (): MahjongTile[] => {
+// Generates a guaranteed solvable Shanghai board for the given layout
+export const generateSolvableShanghaiBoard = (layoutId: ShanghaiLayoutId = 'turtle'): MahjongTile[] => {
+  const layout = SHANGHAI_LAYOUTS[layoutId] || TURTLE_LAYOUT;
   const maxAttempts = 20;
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     const pairs = createStandardTilePairs();
-    const layoutPositions = TURTLE_LAYOUT.map((pos, idx) => ({
+    const layoutPositions = layout.map((pos, idx) => ({
       id: idx,
       layer: pos.layer,
       x: pos.x,
@@ -147,7 +148,7 @@ export const generateSolvableShanghaiBoard = (): MahjongTile[] => {
     flatPairs.push(a, b);
   });
 
-  return TURTLE_LAYOUT.map((pos, idx) => ({
+  return layout.map((pos, idx) => ({
     id: idx,
     layer: pos.layer,
     x: pos.x,
