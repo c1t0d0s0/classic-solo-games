@@ -53,33 +53,33 @@ export const SolitaireCard: React.FC<SolitaireCardProps> = ({
       onClick={onClick}
       onDoubleClick={onDoubleClick}
       style={style}
-      className={`w-11 h-16 sm:w-16 sm:h-24 md:w-20 md:h-28 rounded-md sm:rounded-lg bg-white border border-slate-300 shadow-sm sm:shadow-md flex flex-col justify-between p-0.5 sm:p-1 md:p-1.5 cursor-pointer select-none overflow-hidden transition-shadow duration-150 ${
+      className={`w-11 h-16 sm:w-16 sm:h-24 md:w-20 md:h-28 rounded-md sm:rounded-lg bg-white border border-slate-300 shadow-sm sm:shadow-md relative cursor-pointer select-none overflow-hidden transition-shadow duration-150 ${
         isSelected ? 'ring-3 ring-amber-400 -translate-y-1' : ''
       } ${isDragging ? 'opacity-40 scale-105' : 'hover:shadow-lg hover:-translate-y-0.5'} ${className}`}
     >
       {/* Top Left Corner Index */}
-      <div className={`flex flex-col items-center leading-none self-start px-0.5 ${suitColorClass(card.suit)}`}>
-        <span className="font-black text-xs sm:text-base md:text-lg tracking-tight">{rankStr}</span>
-        <span className="text-[10px] sm:text-xs md:text-sm leading-none -mt-0.5 font-bold">{suitSymbol}</span>
+      <div className={`absolute top-0.5 left-0.5 sm:top-1 sm:left-1 md:top-1.5 md:left-1.5 flex flex-col items-center leading-none ${suitColorClass(card.suit)} pointer-events-none`}>
+        <span className="font-black text-xs sm:text-base md:text-lg leading-none tracking-tighter">{rankStr}</span>
+        <span className="text-[10px] sm:text-xs md:text-sm leading-none font-bold mt-0.5">{suitSymbol}</span>
       </div>
 
       {/* Center Symbol / Art */}
-      <div className="flex-1 flex items-center justify-center my-0 pointer-events-none">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         {card.rank >= 11 ? (
-          <span className={`font-serif font-black text-lg sm:text-3xl md:text-4xl leading-none select-none ${suitColorClass(card.suit)}`}>
+          <span className={`font-serif font-black text-lg sm:text-2xl md:text-3xl leading-none select-none ${suitColorClass(card.suit)}`}>
             {rankStr}
           </span>
         ) : (
-          <span className={`text-xl sm:text-3xl md:text-4xl leading-none font-bold select-none ${suitColorClass(card.suit)}`}>
+          <span className={`text-base sm:text-2xl md:text-3xl leading-none font-bold select-none ${suitColorClass(card.suit)}`}>
             {suitSymbol}
           </span>
         )}
       </div>
 
       {/* Bottom Right Corner Index (Rotated) */}
-      <div className={`flex flex-col items-center leading-none self-end rotate-180 px-0.5 ${suitColorClass(card.suit)}`}>
-        <span className="font-black text-xs sm:text-base md:text-lg tracking-tight">{rankStr}</span>
-        <span className="text-[10px] sm:text-xs md:text-sm leading-none -mt-0.5 font-bold">{suitSymbol}</span>
+      <div className={`absolute bottom-0.5 right-0.5 sm:bottom-1 sm:right-1 md:bottom-1.5 md:right-1.5 flex flex-col items-center leading-none rotate-180 ${suitColorClass(card.suit)} pointer-events-none`}>
+        <span className="font-black text-xs sm:text-base md:text-lg leading-none tracking-tighter">{rankStr}</span>
+        <span className="text-[10px] sm:text-xs md:text-sm leading-none font-bold mt-0.5">{suitSymbol}</span>
       </div>
     </div>
   );
