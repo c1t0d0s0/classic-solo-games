@@ -413,7 +413,7 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
         setIsAutoPlaying(false);
         return prev;
       });
-    }, 85);
+    }, 120);
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, checkAndHandleWin]);
@@ -474,7 +474,7 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
         const deltaY = oldRect.top - newRect.top;
         const distance = Math.hypot(deltaX, deltaY);
 
-        if (distance > 2 && typeof el.animate === 'function') {
+        if (distance > 1 && typeof el.animate === 'function') {
           const parentPile = el.closest<HTMLElement>('.tableau-col, .solitaire-pile-container');
           if (parentPile) {
             parentPile.style.zIndex = '50';
@@ -484,16 +484,14 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
             [
               {
                 transform: `translate3d(${deltaX}px, ${deltaY}px, 0)`,
-                zIndex: '999',
               },
               {
                 transform: 'translate3d(0, 0, 0)',
-                zIndex: '999',
               },
             ],
             {
-              duration: isAutoPlaying ? 120 : 230,
-              easing: 'cubic-bezier(0.2, 0.85, 0.35, 1.0)',
+              duration: isAutoPlaying ? 100 : 200,
+              easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
               fill: 'none',
             }
           );
@@ -643,7 +641,7 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
                   >
                     <SolitaireCard
                       card={state.stock[state.stock.length - 1]}
-                      className="cursor-pointer active:scale-95 hover:scale-102"
+                      className="cursor-pointer active:scale-95 hover:brightness-105"
                     />
                   </div>
                 )}
@@ -664,9 +662,9 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
                           <div
                             key={card.id}
                             data-card-id={card.id}
-                            className="absolute transition-none"
+                            className="absolute transition-none top-0"
                             style={{
-                              transform: `translateX(${offset}px)`,
+                              left: `${offset}px`,
                               zIndex: idx + 1,
                             }}
                           >

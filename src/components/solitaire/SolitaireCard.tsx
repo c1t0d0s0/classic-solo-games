@@ -33,7 +33,7 @@ export const SolitaireCard: React.FC<SolitaireCardProps> = ({
   if (!card.faceUp) {
     return (
       <div
-        className={`w-11 h-16 sm:w-16 sm:h-24 md:w-20 md:h-28 rounded-md sm:rounded-lg bg-gradient-to-br from-blue-700 via-indigo-800 to-blue-950 border-2 border-white/70 shadow-md flex items-center justify-center cursor-default select-none relative overflow-hidden transition-transform ${className}`}
+        className={`w-11 h-16 sm:w-16 sm:h-24 md:w-20 md:h-28 rounded-md sm:rounded-lg bg-gradient-to-br from-blue-700 via-indigo-800 to-blue-950 border-2 border-white/70 shadow-md flex items-center justify-center cursor-default select-none relative overflow-hidden ${className}`}
         style={style}
         onClick={onClick}
       >
@@ -54,8 +54,8 @@ export const SolitaireCard: React.FC<SolitaireCardProps> = ({
       onDoubleClick={onDoubleClick}
       style={style}
       className={`w-11 h-16 sm:w-16 sm:h-24 md:w-20 md:h-28 rounded-md sm:rounded-lg bg-white border border-slate-300 shadow-sm sm:shadow-md relative cursor-pointer select-none overflow-hidden transition-shadow duration-150 ${
-        isSelected ? 'ring-3 ring-amber-400 -translate-y-1' : ''
-      } ${isDragging ? 'opacity-40 scale-105' : 'hover:shadow-lg hover:-translate-y-0.5'} ${className}`}
+        isSelected ? 'ring-3 ring-amber-400 shadow-md' : ''
+      } ${isDragging ? 'opacity-40 scale-105' : 'hover:shadow-md hover:border-slate-400'} ${className}`}
     >
       {/* Top Left Corner Index */}
       <div className={`absolute top-0.5 left-0.5 sm:top-1 sm:left-1 md:top-1.5 md:left-1.5 flex flex-col items-center leading-none ${suitColorClass(card.suit)} pointer-events-none`}>
