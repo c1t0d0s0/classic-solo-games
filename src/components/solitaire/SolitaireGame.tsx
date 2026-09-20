@@ -464,8 +464,8 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
 
       let oldRect = prevPositions.get(id);
 
-      // If card was newly drawn from stock into waste and wasn't in DOM before, animate from stock pile position
-      if (!oldRect && el.closest('[data-pile-type="waste"]') && stockRect) {
+      const isWasteCard = Boolean(el.closest('[data-pile-type="waste"]'));
+      if (!oldRect && isWasteCard && stockRect) {
         oldRect = stockRect;
       }
 
@@ -480,21 +480,36 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
             parentPile.style.zIndex = '50';
           }
 
-          const animation = el.animate(
-            [
-              {
-                transform: `translate3d(${deltaX}px, ${deltaY}px, 0)`,
-              },
-              {
-                transform: 'translate3d(0, 0, 0)',
-              },
-            ],
-            {
-              duration: isAutoPlaying ? 100 : 200,
-              easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
-              fill: 'none',
-            }
-          );
+          const isStockToWaste = isWasteCard && distance > 10;
+          const duration = isAutoPlaying ? 100 : (isStockToWaste ? 220 : 190);
+
+          const keyframes = isStockToWaste
+            ? [
+                {
+                  transform: `translate3d(${deltaX}px, ${deltaY}px, 0)`,
+                },
+                {
+                  transform: `translate3d(${deltaX * 0.45}px, ${deltaY - 3}px, 0)`,
+                  offset: 0.45,
+                },
+                {
+                  transform: 'translate3d(0, 0, 0)',
+                },
+              ]
+            : [
+                {
+                  transform: `translate3d(${deltaX}px, ${deltaY}px, 0)`,
+                },
+                {
+                  transform: 'translate3d(0, 0, 0)',
+                },
+              ];
+
+          const animation = el.animate(keyframes, {
+            duration,
+            easing: isStockToWaste ? 'cubic-bezier(0.16, 1, 0.3, 1)' : 'cubic-bezier(0.25, 1, 0.5, 1)',
+            fill: 'none',
+          });
 
           animation.onfinish = () => {
             if (parentPile) {
@@ -628,36 +643,35 @@ export const SolitaireGame: React.FC<SolitaireGameProps> = ({
           {/* Stock & Waste */}
           <div className="flex gap-2 sm:gap-3 md:gap-4">
             {/* Stock */}
-            <div ref={stockPileRef}>
-              <SolitairePile
-                type="stock"
-                isEmpty={state.stock.length === 0}
-                onClick={handleStockClick}
-              >
-                {state.stock.length > 0 && (
-                  <div
-                    data-card-id={state.stock[state.stock.length - 1].id}
-                    className="w-full h-full"
-                  >
-                    <SolitaireCard
-                      card={state.stock[state.stock.length - 1]}
-                      className="cursor-pointer active:scale-95 hover:brightness-105"
-                    />
-                  </div>
-                )}
-              </SolitairePile>
-            </div>
+            <SolitairePile
+              ref={stockPileRef}
+              type="stock"
+              isEmpty={state.stock.length === 0}
+              onClick={handleStockClick}
+            >
+              {state.stock.length > 0 && (
+                <div
+                  data-card-id={state.stock[state.stock.length - 1].id}
+                  className="w-full h-full"
+                >
+                  <SolitaireCard
+                    card={state.stock[state.stock.length - 1]}
+                    className="cursor-pointer hover:brightness-105 active:brightness-95"
+                  />
+                </div>
+              )}
+            </SolitairePile>
 
             {/* Waste */}
             <div data-pile-type="waste">
               <SolitairePile type="waste" isEmpty={state.waste.length === 0}>
                 {state.waste.length > 0 && (
-                  <div className="relative w-full h-full flex items-center justify-center">
+                  <div className="relative w-full h-full flex items-center justify-start">
                     {state.drawMode === 3 ? (
                       state.waste.slice(-3).map((card, idx, arr) => {
                         const actualIndex = state.waste.length - arr.length + idx;
                         const isTopCard = idx === arr.length - 1;
-                        const offset = (idx - (arr.length - 1)) * 14;
+                        const offset = idx * 14;
                         return (
                           <div
                             key={card.id}
