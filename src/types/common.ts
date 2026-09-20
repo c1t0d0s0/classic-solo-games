@@ -1,4 +1,4 @@
-export type GameType = 'hub' | 'solitaire' | 'minesweeper' | 'shanghai' | 'freecell';
+export type GameType = 'hub' | 'solitaire' | 'freecell' | 'minesweeper' | 'shanghai' | 'sokoban' | 'sudoku';
 
 export type AppTheme = 'classic' | 'felt' | 'dark' | 'retro-win';
 
@@ -13,6 +13,7 @@ export interface GameStats {
 export interface AllStats {
   solitaire_draw1: GameStats;
   solitaire_draw3: GameStats;
+  freecell: GameStats;
   minesweeper_easy: GameStats;
   minesweeper_medium: GameStats;
   minesweeper_hard: GameStats;
@@ -21,7 +22,11 @@ export interface AllStats {
   shanghai_canyon: GameStats;
   shanghai_spider: GameStats;
   shanghai_dragon: GameStats;
-  freecell: GameStats;
+  sokoban: GameStats;
+  sudoku_easy: GameStats;
+  sudoku_medium: GameStats;
+  sudoku_hard: GameStats;
+  sudoku_expert: GameStats;
 }
 
 export interface UserSettings {
@@ -34,5 +39,8 @@ export interface UserSettings {
   minesweeperLongPressMs: number;
   shanghaiAutoHint: boolean;
   freecellAutoMove: boolean;
+  sokobanDpad: boolean;
+  sudokuHighlightDuplicates: boolean;
+  sudokuAutoClearNotes: boolean;
 }
 

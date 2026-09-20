@@ -37,6 +37,11 @@ export const StatsModal: React.FC<StatsModalProps> = ({
     { label: t('statShanghaiCanyon'), data: stats.shanghai_canyon || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-amber-500/40 bg-amber-950/20' },
     { label: t('statShanghaiSpider'), data: stats.shanghai_spider || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-amber-500/40 bg-amber-950/20' },
     { label: t('statShanghaiDragon'), data: stats.shanghai_dragon || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-amber-500/40 bg-amber-950/20' },
+    { label: t('statSokoban'), data: stats.sokoban || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-orange-500/40 bg-orange-950/20' },
+    { label: t('statSudokuEasy'), data: stats.sudoku_easy || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-sky-500/40 bg-sky-950/20' },
+    { label: t('statSudokuMed'), data: stats.sudoku_medium || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-sky-500/40 bg-sky-950/20' },
+    { label: t('statSudokuHard'), data: stats.sudoku_hard || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-sky-500/40 bg-sky-950/20' },
+    { label: t('statSudokuExpert'), data: stats.sudoku_expert || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-sky-500/40 bg-sky-950/20' },
   ];
 
   return (

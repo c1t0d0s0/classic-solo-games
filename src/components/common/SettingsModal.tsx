@@ -190,6 +190,43 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           </div>
         </div>
 
+        {/* Sudoku Settings */}
+        <div className="flex items-center justify-between p-3 bg-slate-800/60 rounded-xl border border-slate-700">
+          <div>
+            <div className="font-bold text-sm text-slate-200">数独: 重複数字の強調表示</div>
+            <div className="text-xs text-slate-400">同じ行・列・ブロック内の重複を赤色で警告</div>
+          </div>
+          <button
+            onClick={() => {
+              sounds.playClick();
+              onUpdateSettings({ ...settings, sudokuHighlightDuplicates: !settings.sudokuHighlightDuplicates });
+            }}
+            className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors ${
+              settings.sudokuHighlightDuplicates !== false ? 'bg-indigo-600 justify-end' : 'bg-slate-600 justify-start'
+            }`}
+          >
+            <div className="w-4 h-4 rounded-full bg-white shadow-md transition-transform" />
+          </button>
+        </div>
+
+        <div className="flex items-center justify-between p-3 bg-slate-800/60 rounded-xl border border-slate-700">
+          <div>
+            <div className="font-bold text-sm text-slate-200">数独: メモの自動消去</div>
+            <div className="text-xs text-slate-400">数字確定時に関連マスのメモ候補を自動で消去</div>
+          </div>
+          <button
+            onClick={() => {
+              sounds.playClick();
+              onUpdateSettings({ ...settings, sudokuAutoClearNotes: !settings.sudokuAutoClearNotes });
+            }}
+            className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors ${
+              settings.sudokuAutoClearNotes !== false ? 'bg-indigo-600 justify-end' : 'bg-slate-600 justify-start'
+            }`}
+          >
+            <div className="w-4 h-4 rounded-full bg-white shadow-md transition-transform" />
+          </button>
+        </div>
+
         {/* Done Button */}
         <button
           onClick={onClose}

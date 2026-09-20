@@ -11,6 +11,8 @@ export const translations = {
     navMinesweeper: 'マインスイーパー',
     navShanghai: '上海',
     navFreecell: 'フリーセル',
+    navSokoban: '倉庫番',
+    navSudoku: '数独',
     stats: '統計',
     settings: '設定',
     fullscreen: '全画面表示',
@@ -55,7 +57,7 @@ export const translations = {
     // Hub
     hubBadge: 'PC & スマートフォン両対応・Web版',
     hubHeroTitle: 'クラシック・ソロゲームズ',
-    hubHeroDesc: '誰でも知っている永遠の名作一人遊びゲームを、快適な操作感と美しい演出で。通勤中や休憩時間の手軽な脳トレにどうぞ。',
+    hubHeroDesc: '誰でも知っている永遠の名作一人遊びゲームを、快適な操作感と美しい演出で。',
     hubSolitaireTitle: 'ソリティア (クロンダイク)',
     hubSolitaireBadge: '定番カードゲーム',
     hubSolitaireDesc: '古典的なトランプの一人遊び。赤と黒を交互に重ね、AからKまで4つの組札を完成させましょう。',
@@ -83,6 +85,20 @@ export const translations = {
     hubFreecellF1: '全52枚完全オープン ＆ 驚異のクリア可能率（99.99%）',
     hubFreecellF2: 'クラシック名作ゲーム番号指定（第1問〜32000問再現）',
     hubFreecellF3: 'スマホ最適化タップ自動移動 ＆ 複数枚スーパーフライト',
+
+    hubSokobanTitle: '倉庫番 (Sokoban)',
+    hubSokobanBadge: '思考型パズル',
+    hubSokobanDesc: '荷物を押して指定のゴール地点へ運ぶ、世界中で愛される名作倉庫番。奥深いパズル全25ステージ収録。',
+    hubSokobanF1: '名作パズル全25ステージ完全収録',
+    hubSokobanF2: 'AIエンジンによるヒント ＆ 自動解法機能',
+    hubSokobanF3: '詰み（デッドロック）警告 ＆ 仮想十字キー対応',
+
+    hubSudokuTitle: '数独 (ナンプレ)',
+    hubSudokuBadge: '数字パズル',
+    hubSudokuDesc: '9×9のマスに1から9の数字を重複なく配置する王道ロジックパズル。初級からエキスパートまで収録。',
+    hubSudokuF1: '唯一解保証パズル自動生成（初級・中級・上級・エキスパート）',
+    hubSudokuF2: '充実のメモモード（候補数字の自動消去対応）',
+    hubSudokuF3: '重複数字ハイライト ＆ 残り枚数バッジ',
 
     // Solitaire
     draw1: '1枚',
@@ -143,6 +159,11 @@ export const translations = {
     statShanghaiSpider: '上海 (スパイダー)',
     statShanghaiDragon: '上海 (ドラゴン)',
     statShanghai: '上海 (タートル)',
+    statSokoban: '倉庫番',
+    statSudokuEasy: '数独 (初級)',
+    statSudokuMed: '数独 (中級)',
+    statSudokuHard: '数独 (上級)',
+    statSudokuExpert: '数独 (エキスパート)',
   },
 
   en: {
@@ -154,6 +175,8 @@ export const translations = {
     navMinesweeper: 'Minesweeper',
     navShanghai: 'Shanghai',
     navFreecell: 'FreeCell',
+    navSokoban: 'Sokoban',
+    navSudoku: 'Sudoku',
     stats: 'Statistics',
     settings: 'Settings',
     fullscreen: 'Fullscreen',
@@ -198,7 +221,7 @@ export const translations = {
     // Hub
     hubBadge: 'Web App for PC & Mobile',
     hubHeroTitle: 'Classic Solo Games',
-    hubHeroDesc: 'Play legendary single-player classics with smooth controls, rich 3D visuals, and authentic sounds. Perfect for a quick break or brain training.',
+    hubHeroDesc: 'Play legendary single-player classics with smooth controls, rich 3D visuals, and authentic sounds.',
     hubSolitaireTitle: 'Solitaire (Klondike)',
     hubSolitaireBadge: 'Classic Cards',
     hubSolitaireDesc: 'The ultimate card puzzle. Stack cards in alternating colors descending, and build all 4 foundations from Ace to King.',
@@ -226,6 +249,20 @@ export const translations = {
     hubFreecellF1: '100% open information & 99.99% solvable puzzles',
     hubFreecellF2: 'Authentic Microsoft deals (Play canonical Game #1 - #32000)',
     hubFreecellF3: 'Supermove stack transfers & tap-to-move auto assist',
+
+    hubSokobanTitle: 'Sokoban',
+    hubSokobanBadge: 'Box Pushing Puzzle',
+    hubSokobanDesc: 'Push boxes onto the goal locations in this iconic brain-teaser. Features 25 handcrafted stages with smart solver assistance.',
+    hubSokobanF1: '25 authentic levels from beginner to expert',
+    hubSokobanF2: 'AI-assisted step hints & auto-solution playback',
+    hubSokobanF3: 'Corner deadlock detection & mobile virtual D-pad',
+
+    hubSudokuTitle: 'Sudoku',
+    hubSudokuBadge: 'Number Logic Puzzle',
+    hubSudokuDesc: 'Fill the 9x9 grid with numbers 1 to 9 without repeats in any row, column, or 3x3 box.',
+    hubSudokuF1: 'Guaranteed unique solution puzzles (Easy, Medium, Hard, Expert)',
+    hubSudokuF2: 'Full pencil notes mode with auto-clear assistance',
+    hubSudokuF3: 'Conflict highlighting & remaining digit count badges',
 
     // Solitaire
     draw1: 'Draw 1',
@@ -286,5 +323,10 @@ export const translations = {
     statShanghaiSpider: 'Shanghai (Spider)',
     statShanghaiDragon: 'Shanghai (Dragon)',
     statShanghai: 'Shanghai (Turtle)',
+    statSokoban: 'Sokoban',
+    statSudokuEasy: 'Sudoku (Easy)',
+    statSudokuMed: 'Sudoku (Medium)',
+    statSudokuHard: 'Sudoku (Hard)',
+    statSudokuExpert: 'Sudoku (Expert)',
   },
 };

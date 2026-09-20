@@ -14,6 +14,7 @@ const defaultGameStats = (): GameStats => ({
 const defaultAllStats: AllStats = {
   solitaire_draw1: defaultGameStats(),
   solitaire_draw3: defaultGameStats(),
+  freecell: defaultGameStats(),
   minesweeper_easy: defaultGameStats(),
   minesweeper_medium: defaultGameStats(),
   minesweeper_hard: defaultGameStats(),
@@ -22,7 +23,11 @@ const defaultAllStats: AllStats = {
   shanghai_canyon: defaultGameStats(),
   shanghai_spider: defaultGameStats(),
   shanghai_dragon: defaultGameStats(),
-  freecell: defaultGameStats(),
+  sokoban: defaultGameStats(),
+  sudoku_easy: defaultGameStats(),
+  sudoku_medium: defaultGameStats(),
+  sudoku_hard: defaultGameStats(),
+  sudoku_expert: defaultGameStats(),
 };
 
 const defaultSettings: UserSettings = {
@@ -35,6 +40,9 @@ const defaultSettings: UserSettings = {
   minesweeperLongPressMs: 350,
   shanghaiAutoHint: false,
   freecellAutoMove: true,
+  sokobanDpad: true,
+  sudokuHighlightDuplicates: true,
+  sudokuAutoClearNotes: true,
 };
 
 export const loadStats = (): AllStats => {

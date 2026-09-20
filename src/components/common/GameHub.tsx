@@ -109,6 +109,48 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
         (stats.shanghai_spider?.won || 0) +
         (stats.shanghai_dragon?.won || 0),
     },
+    {
+      id: 'sokoban',
+      title: t('hubSokobanTitle'),
+      subTitle: 'Sokoban Box Puzzle',
+      description: t('hubSokobanDesc'),
+      icon: '📦',
+      badge: t('hubSokobanBadge'),
+      features: [
+        t('hubSokobanF1'),
+        t('hubSokobanF2'),
+        t('hubSokobanF3'),
+      ],
+      gradient: 'from-orange-950/60 via-amber-950/40 to-slate-900',
+      border: 'border-orange-600/40 hover:border-orange-500',
+      played: stats.sokoban?.played || 0,
+      won: stats.sokoban?.won || 0,
+    },
+    {
+      id: 'sudoku',
+      title: t('hubSudokuTitle'),
+      subTitle: 'Sudoku Number Place',
+      description: t('hubSudokuDesc'),
+      icon: '🔢',
+      badge: t('hubSudokuBadge'),
+      features: [
+        t('hubSudokuF1'),
+        t('hubSudokuF2'),
+        t('hubSudokuF3'),
+      ],
+      gradient: 'from-sky-950/60 via-indigo-950/40 to-slate-900',
+      border: 'border-sky-600/40 hover:border-sky-500',
+      played:
+        (stats.sudoku_easy?.played || 0) +
+        (stats.sudoku_medium?.played || 0) +
+        (stats.sudoku_hard?.played || 0) +
+        (stats.sudoku_expert?.played || 0),
+      won:
+        (stats.sudoku_easy?.won || 0) +
+        (stats.sudoku_medium?.won || 0) +
+        (stats.sudoku_hard?.won || 0) +
+        (stats.sudoku_expert?.won || 0),
+    },
   ];
 
   const handleGameLaunch = (gameId: GameType) => {
@@ -117,7 +159,7 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
   };
 
   return (
-    <div className="w-full max-w-5xl flex flex-col items-center gap-6 sm:gap-8 py-4 sm:py-6 px-3">
+    <div className="w-full max-w-6xl flex flex-col items-center gap-6 sm:gap-8 py-4 sm:py-6 px-3">
       {/* Hero Banner */}
       <div className="text-center flex flex-col items-center gap-2 sm:gap-3">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
@@ -132,8 +174,8 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
         </p>
       </div>
 
-      {/* Game Cards Grid (2x2) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full">
+      {/* Game Cards Grid (2x3 or 3x2) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full">
         {games.map((game) => {
           const winRate = game.played > 0 ? Math.round((game.won / game.played) * 100) : 0;
 

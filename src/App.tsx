@@ -8,6 +8,8 @@ import { SolitaireGame } from './components/solitaire/SolitaireGame';
 import { MinesweeperGame } from './components/minesweeper/MinesweeperGame';
 import { ShanghaiGame } from './components/shanghai/ShanghaiGame';
 import { FreeCellGame } from './components/freecell/FreeCellGame';
+import { SokobanGame } from './components/sokoban/SokobanGame';
+import { SudokuGame } from './components/sudoku/SudokuGame';
 import { StatsModal } from './components/common/StatsModal';
 import { SettingsModal } from './components/common/SettingsModal';
 import { LanguageProvider } from './i18n/LanguageContext';
@@ -83,6 +85,18 @@ export function App() {
 
           {activeGame === 'freecell' && (
             <FreeCellGame onOpenStats={handleOpenStats} />
+          )}
+
+          {activeGame === 'sokoban' && (
+            <SokobanGame onOpenStats={handleOpenStats} />
+          )}
+
+          {activeGame === 'sudoku' && (
+            <SudokuGame
+              onOpenStats={handleOpenStats}
+              highlightDuplicates={settings.sudokuHighlightDuplicates}
+              autoClearNotes={settings.sudokuAutoClearNotes}
+            />
           )}
         </main>
 
