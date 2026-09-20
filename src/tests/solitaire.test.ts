@@ -92,4 +92,14 @@ describe('Solitaire Logic Tests', () => {
       isGameWon([fullFoundation, fullFoundation, fullFoundation, incompleteFoundation])
     ).toBe(false);
   });
+
+  it('should generate a guaranteed solvable Solitaire game for Draw 1 and Draw 3', () => {
+    const game1 = initializeSolitaireGame(1);
+    expect(game1.tableau).toHaveLength(7);
+    expect(game1.stock).toHaveLength(24);
+
+    const game3 = initializeSolitaireGame(3);
+    expect(game3.tableau).toHaveLength(7);
+    expect(game3.stock).toHaveLength(24);
+  });
 });

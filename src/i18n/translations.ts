@@ -55,7 +55,7 @@ export const translations = {
     hubSolitaireTitle: 'ソリティア (クロンダイク)',
     hubSolitaireBadge: '定番カードゲーム',
     hubSolitaireDesc: '古典的なトランプの一人遊び。赤と黒を交互に重ね、AからKまで4つの組札を完成させましょう。',
-    hubSolitaireF1: 'スマホ対応ワンタップ移動 ＆ PCドラッグ操作',
+    hubSolitaireF1: '100%クリア保証アルゴリズム（必ず解ける配牌を生成）',
     hubSolitaireF2: '1枚めくり / 3枚めくり切り替え',
     hubSolitaireF3: '爽快な自動完成 ＆ カード跳ね返り演出',
 
@@ -177,7 +177,7 @@ export const translations = {
     hubSolitaireTitle: 'Solitaire (Klondike)',
     hubSolitaireBadge: 'Classic Cards',
     hubSolitaireDesc: 'The ultimate card puzzle. Stack cards in alternating colors descending, and build all 4 foundations from Ace to King.',
-    hubSolitaireF1: 'Tap-to-move auto-assist on mobile & drag on PC',
+    hubSolitaireF1: '100% guaranteed solvable deal generator',
     hubSolitaireF2: 'Switch between Draw 1 and Draw 3 anytime',
     hubSolitaireF3: 'Auto-complete & classic bouncing card win cascade',
 

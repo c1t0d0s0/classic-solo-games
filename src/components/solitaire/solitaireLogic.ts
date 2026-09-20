@@ -1,4 +1,5 @@
 import { Card, CardColor, PileType, SolitaireState, Suit } from '../../types/solitaire';
+import { generateGuaranteedSolvableGame } from './solitaireSolver';
 
 export const SUITS: Suit[] = ['spades', 'hearts', 'clubs', 'diamonds'];
 export const RANKS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]; // 1: Ace, 11: J, 12: Q, 13: K
@@ -49,38 +50,7 @@ export const createShuffledDeck = (): Card[] => {
 };
 
 export const initializeSolitaireGame = (drawMode: 1 | 3 = 1): SolitaireState => {
-  const deck = createShuffledDeck();
-  const tableau: Card[][] = [[], [], [], [], [], [], []];
-
-  // Deal tableau: 1st col has 1 card, 2nd has 2, ..., 7th has 7 cards
-  for (let col = 0; col < 7; col++) {
-    for (let row = 0; row <= col; row++) {
-      const card = deck.pop()!;
-      if (row === col) {
-        card.faceUp = true; // Top card is face up
-      }
-      tableau[col].push(card);
-    }
-  }
-
-  // Remaining 24 cards go to stock (face down)
-  const stock: Card[] = deck.map((c) => ({ ...c, faceUp: false }));
-  const waste: Card[] = [];
-  const foundations: Card[][] = [[], [], [], []];
-
-  return {
-    stock,
-    waste,
-    foundations,
-    tableau,
-    drawMode,
-    moves: 0,
-    score: 0,
-    timeSeconds: 0,
-    isPlaying: false,
-    isWon: false,
-    autoCompletable: false,
-  };
+  return generateGuaranteedSolvableGame(drawMode);
 };
 
 export const canMoveToTableau = (card: Card, targetColumn: Card[]): boolean => {
