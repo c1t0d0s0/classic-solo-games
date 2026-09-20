@@ -1,4 +1,4 @@
-export type GameType = 'hub' | 'solitaire' | 'minesweeper' | 'shanghai';
+export type GameType = 'hub' | 'solitaire' | 'minesweeper' | 'shanghai' | 'freecell';
 
 export type AppTheme = 'classic' | 'felt' | 'dark' | 'retro-win';
 
@@ -21,6 +21,7 @@ export interface AllStats {
   shanghai_canyon: GameStats;
   shanghai_spider: GameStats;
   shanghai_dragon: GameStats;
+  freecell: GameStats;
 }
 
 export interface UserSettings {
@@ -32,4 +33,6 @@ export interface UserSettings {
   minesweeperQuickFlag: boolean;
   minesweeperLongPressMs: number;
   shanghaiAutoHint: boolean;
+  freecellAutoMove: boolean;
 }
+

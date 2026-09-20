@@ -28,6 +28,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({
   const statItems = [
     { label: t('statSolitaireDraw1'), data: stats.solitaire_draw1, color: 'border-emerald-500/40 bg-emerald-950/20' },
     { label: t('statSolitaireDraw3'), data: stats.solitaire_draw3, color: 'border-emerald-500/40 bg-emerald-950/20' },
+    { label: t('statFreecell'), data: stats.freecell || { played: 0, won: 0, bestTime: null, currentStreak: 0, bestStreak: 0 }, color: 'border-violet-500/40 bg-violet-950/20' },
     { label: t('statMineEasy'), data: stats.minesweeper_easy, color: 'border-blue-500/40 bg-blue-950/20' },
     { label: t('statMineMed'), data: stats.minesweeper_medium, color: 'border-blue-500/40 bg-blue-950/20' },
     { label: t('statMineHard'), data: stats.minesweeper_hard, color: 'border-blue-500/40 bg-blue-950/20' },

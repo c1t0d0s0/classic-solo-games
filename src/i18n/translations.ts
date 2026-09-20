@@ -10,6 +10,7 @@ export const translations = {
     navSolitaire: 'ソリティア',
     navMinesweeper: 'マインスイーパー',
     navShanghai: '上海',
+    navFreecell: 'フリーセル',
     stats: '統計',
     settings: '設定',
     fullscreen: '全画面表示',
@@ -25,6 +26,9 @@ export const translations = {
     close: '閉じる',
     newGame: '新規',
     undo: '戻す',
+    restart: 'やり直す',
+    cancel: 'キャンセル',
+    start: '開始',
     play: 'プレイ',
     time: 'タイム',
     moves: '手数',
@@ -63,8 +67,8 @@ export const translations = {
     hubMinesweeperBadge: '論理思考パズル',
     hubMinesweeperDesc: '数字のヒントを頼りに、地雷を避けてすべての安全なマスを開放する論理パズル。',
     hubMinesweeperF1: '初手安全保証（最初のクリックは必ず安全）',
-    hubMinesweeperF2: '初級(9x9)・中級(16x16)・上級(30x16)の3難易度',
-    hubMinesweeperF3: 'スマホ用ワンタップ旗モード ＆ 盤面ズーム機能',
+    hubMinesweeperF2: '初級 (9×9)・中級 (16×16)・上級 (30×16)',
+    hubMinesweeperF3: '誤タップ防止クイック旗モード ＆ スムーズ拡大縮小',
 
     hubShanghaiTitle: '上海 (麻雀ソリティア)',
     hubShanghaiBadge: '牌消しパズル',
@@ -73,6 +77,13 @@ export const translations = {
     hubShanghaiF2: '3D立体レイヤー表示 ＆ 選択可能牌の視覚アシスト',
     hubShanghaiF3: '困ったときのヒント機能 ＆ 牌の再配置シャッフル',
 
+    hubFreecellTitle: 'フリーセル (FreeCell)',
+    hubFreecellBadge: '思考型カードゲーム',
+    hubFreecellDesc: 'すべてのカードが最初から表向き。4つのフリーセルを戦略的に使い、すべてのカードを組札へ揃える名作。',
+    hubFreecellF1: '全52枚完全オープン ＆ 驚異のクリア可能率（99.99%）',
+    hubFreecellF2: 'クラシック名作ゲーム番号指定（第1問〜32000問再現）',
+    hubFreecellF3: 'スマホ最適化タップ自動移動 ＆ 複数枚スーパーフライト',
+
     // Solitaire
     draw1: '1枚',
     draw3: '3枚',
@@ -80,6 +91,15 @@ export const translations = {
     drawModeDesc: '標準のめくり設定',
     autoComplete: '自動完成',
     autoCollecting: '自動回収中...',
+
+    // FreeCell
+    fcAutoHome: '自動回収',
+    fcAutoHomeTooltip: '安全なカードを自動で組札へ送ります',
+    fcSelectGameTitle: 'ゲーム番号の指定',
+    fcSelectGameDesc: 'Windowsでお馴染みの名作フリーセル番号（1〜32000）を入力して同じ配牌をプレイできます。',
+    fcSelectGameTooltip: 'ゲーム番号を指定してプレイ',
+    fcGameNumPlaceholder: '例: 11982',
+    fcFamousDeals: '有名な名作問題',
 
     // Minesweeper
     diffEasy: '初級 (9×9)',
@@ -113,6 +133,7 @@ export const translations = {
     statsTitle: 'ゲーム戦績・統計',
     statSolitaireDraw1: 'ソリティア (1枚めくり)',
     statSolitaireDraw3: 'ソリティア (3枚めくり)',
+    statFreecell: 'フリーセル',
     statMineEasy: 'マインスイーパー (初級)',
     statMineMed: 'マインスイーパー (中級)',
     statMineHard: 'マインスイーパー (上級)',
@@ -132,6 +153,7 @@ export const translations = {
     navSolitaire: 'Solitaire',
     navMinesweeper: 'Minesweeper',
     navShanghai: 'Shanghai',
+    navFreecell: 'FreeCell',
     stats: 'Statistics',
     settings: 'Settings',
     fullscreen: 'Fullscreen',
@@ -147,6 +169,9 @@ export const translations = {
     close: 'Close',
     newGame: 'New Game',
     undo: 'Undo',
+    restart: 'Restart',
+    cancel: 'Cancel',
+    start: 'Start',
     play: 'Play',
     time: 'Time',
     moves: 'Moves',
@@ -195,6 +220,13 @@ export const translations = {
     hubShanghaiF2: '3D layered depth with tactile jade-green backing',
     hubShanghaiF3: 'Smart hint highlight & remaining tile re-deal',
 
+    hubFreecellTitle: 'FreeCell',
+    hubFreecellBadge: 'Strategy Cards',
+    hubFreecellDesc: 'All 52 cards are dealt face-up. Strategically use the 4 free cells to sort every card into the foundations.',
+    hubFreecellF1: '100% open information & 99.99% solvable puzzles',
+    hubFreecellF2: 'Authentic Microsoft deals (Play canonical Game #1 - #32000)',
+    hubFreecellF3: 'Supermove stack transfers & tap-to-move auto assist',
+
     // Solitaire
     draw1: 'Draw 1',
     draw3: 'Draw 3',
@@ -202,6 +234,15 @@ export const translations = {
     drawModeDesc: 'Default draw setting',
     autoComplete: 'Auto Finish',
     autoCollecting: 'Auto Finishing...',
+
+    // FreeCell
+    fcAutoHome: 'Auto Home',
+    fcAutoHomeTooltip: 'Automatically move safe cards to foundations',
+    fcSelectGameTitle: 'Select Game Number',
+    fcSelectGameDesc: 'Enter a classic Windows FreeCell deal number (1 - 32000) to play that exact layout.',
+    fcSelectGameTooltip: 'Choose game deal number',
+    fcGameNumPlaceholder: 'e.g. 11982',
+    fcFamousDeals: 'Famous Deals',
 
     // Minesweeper
     diffEasy: 'Beginner (9×9)',
@@ -235,6 +276,7 @@ export const translations = {
     statsTitle: 'Game Statistics',
     statSolitaireDraw1: 'Solitaire (Draw 1)',
     statSolitaireDraw3: 'Solitaire (Draw 3)',
+    statFreecell: 'FreeCell',
     statMineEasy: 'Minesweeper (Beginner)',
     statMineMed: 'Minesweeper (Intermediate)',
     statMineHard: 'Minesweeper (Expert)',

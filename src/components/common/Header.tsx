@@ -34,6 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
   const navItems: { id: GameType; label: string; icon: string }[] = [
     { id: 'hub', label: t('navHome'), icon: '🏠' },
     { id: 'solitaire', label: t('navSolitaire'), icon: '♠' },
+    { id: 'freecell', label: t('navFreecell'), icon: '🃏' },
     { id: 'minesweeper', label: t('navMinesweeper'), icon: '💣' },
     { id: 'shanghai', label: t('navShanghai'), icon: '🀄' },
   ];
@@ -118,8 +119,8 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Mobile Navigation Row (visible on mobile < sm, hidden on sm+) */}
-      <div className="sm:hidden px-2 pb-2 pt-0.5 w-full">
-        <nav className="grid grid-cols-4 gap-1 bg-slate-950/70 p-1 rounded-xl border border-slate-800/80 shadow-inner">
+      <div className="sm:hidden px-1.5 pb-2 pt-0.5 w-full">
+        <nav className="grid grid-cols-5 gap-0.5 bg-slate-950/70 p-1 rounded-xl border border-slate-800/80 shadow-inner">
           {navItems.map((item) => (
             <button
               key={item.id}
@@ -127,16 +128,16 @@ export const Header: React.FC<HeaderProps> = ({
                 sounds.playClick();
                 onSelectGame(item.id);
               }}
-              className={`flex items-center justify-center gap-1 px-1 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all active:scale-95 ${
+              className={`flex items-center justify-center gap-0.5 px-0.5 py-1.5 rounded-lg text-[10px] font-bold whitespace-nowrap transition-all active:scale-95 ${
                 activeGame === item.id
                   ? 'bg-indigo-600 text-white shadow-md shadow-indigo-900/50'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
               }`}
             >
               {item.id === 'hub' ? (
-                <Home className="w-3.5 h-3.5 shrink-0" />
+                <Home className="w-3 h-3 shrink-0" />
               ) : (
-                <span className="text-xs shrink-0">{item.icon}</span>
+                <span className="text-[11px] shrink-0">{item.icon}</span>
               )}
               <span className="truncate">{item.label}</span>
             </button>

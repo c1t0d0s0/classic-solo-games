@@ -22,6 +22,7 @@ const defaultAllStats: AllStats = {
   shanghai_canyon: defaultGameStats(),
   shanghai_spider: defaultGameStats(),
   shanghai_dragon: defaultGameStats(),
+  freecell: defaultGameStats(),
 };
 
 const defaultSettings: UserSettings = {
@@ -33,6 +34,7 @@ const defaultSettings: UserSettings = {
   minesweeperQuickFlag: false,
   minesweeperLongPressMs: 350,
   shanghaiAutoHint: false,
+  freecellAutoMove: true,
 };
 
 export const loadStats = (): AllStats => {

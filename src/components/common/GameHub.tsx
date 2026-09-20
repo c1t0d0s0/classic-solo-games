@@ -43,6 +43,23 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
       won: stats.solitaire_draw1.won + stats.solitaire_draw3.won,
     },
     {
+      id: 'freecell',
+      title: t('hubFreecellTitle'),
+      subTitle: 'FreeCell Solitaire',
+      description: t('hubFreecellDesc'),
+      icon: '🃏',
+      badge: t('hubFreecellBadge'),
+      features: [
+        t('hubFreecellF1'),
+        t('hubFreecellF2'),
+        t('hubFreecellF3'),
+      ],
+      gradient: 'from-violet-900/60 via-purple-950/40 to-slate-900',
+      border: 'border-violet-600/40 hover:border-violet-500',
+      played: stats.freecell?.played || 0,
+      won: stats.freecell?.won || 0,
+    },
+    {
       id: 'minesweeper',
       title: t('hubMinesweeperTitle'),
       subTitle: 'Minesweeper',
@@ -103,7 +120,7 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
     <div className="w-full max-w-5xl flex flex-col items-center gap-6 sm:gap-8 py-4 sm:py-6 px-3">
       {/* Hero Banner */}
       <div className="text-center flex flex-col items-center gap-2 sm:gap-3">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5" />
           <span>{t('hubBadge')}</span>
         </div>
@@ -115,8 +132,8 @@ export const GameHub: React.FC<GameHubProps> = ({ stats, onSelectGame }) => {
         </p>
       </div>
 
-      {/* Game Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full">
+      {/* Game Cards Grid (2x2) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full">
         {games.map((game) => {
           const winRate = game.played > 0 ? Math.round((game.won / game.played) * 100) : 0;
 

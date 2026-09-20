@@ -7,6 +7,7 @@ import { GameHub } from './components/common/GameHub';
 import { SolitaireGame } from './components/solitaire/SolitaireGame';
 import { MinesweeperGame } from './components/minesweeper/MinesweeperGame';
 import { ShanghaiGame } from './components/shanghai/ShanghaiGame';
+import { FreeCellGame } from './components/freecell/FreeCellGame';
 import { StatsModal } from './components/common/StatsModal';
 import { SettingsModal } from './components/common/SettingsModal';
 import { LanguageProvider } from './i18n/LanguageContext';
@@ -78,6 +79,10 @@ export function App() {
 
           {activeGame === 'shanghai' && (
             <ShanghaiGame onOpenStats={handleOpenStats} />
+          )}
+
+          {activeGame === 'freecell' && (
+            <FreeCellGame onOpenStats={handleOpenStats} />
           )}
         </main>
 

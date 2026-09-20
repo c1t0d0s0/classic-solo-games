@@ -8,7 +8,7 @@ export interface Card {
   faceUp: boolean;
 }
 
-export type PileType = 'stock' | 'waste' | 'foundation' | 'tableau';
+export type PileType = 'stock' | 'waste' | 'foundation' | 'tableau' | 'freecell';
 
 export interface CardLocation {
   pileType: PileType;
