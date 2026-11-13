@@ -50,6 +50,8 @@ jobs:
           fi
 
       - name: Build project
+        env:
+          GTM_ID: ${{ vars.GTM_ID || secrets.GTM_ID }}
         run: npm run build
 
       - name: Upload Pages artifact
